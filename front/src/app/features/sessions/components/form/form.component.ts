@@ -86,6 +86,6 @@ export class FormComponent implements OnInit {
 
   private exitPage(message: string): void {
     this.matSnackBar.open(message, 'Close', { duration: 3000 });
-    this.router.navigate(['sessions']);
+    this.router.navigate(['sessions']); //misspelled
   }
 }

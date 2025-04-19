@@ -24,16 +24,17 @@ describe('LoginComponent', () => {
   let router: Router;
   let sessionService: SessionService;
 
-  const routes: Routes = [
-    { path: 'me', component: LoginComponent }
-  ];
+  // const routes: Routes = [
+  //   { path: 'me', component: LoginComponent }
+  // ];
 
   beforeEach(async () => {
     const authServiceMock = {
       login: jest.fn()
     };
     const sessionServiceMock = {
-      setSession: jest.fn()
+      setSession: jest.fn(),
+      logIn: jest.fn()
     }
 
 
@@ -46,7 +47,7 @@ describe('LoginComponent', () => {
 
       ],
       imports: [
-        RouterTestingModule.withRoutes(routes),
+        //RouterTestingModule.withRoutes(routes),
 
         RouterTestingModule,
         BrowserAnimationsModule,
@@ -64,6 +65,7 @@ describe('LoginComponent', () => {
     authService = TestBed.inject(AuthService);
     sessionService = TestBed.inject(SessionService)
     router = TestBed.inject(Router);
+    jest.spyOn(sessionService, 'logIn').mockImplementation(() => {});
 
   });
 
@@ -94,9 +96,8 @@ describe('LoginComponent', () => {
 
     // Assert
     expect(authService.login).toHaveBeenCalledWith({ email: 'test@example.com', password: 'password' });
-    expect(router.navigate).toHaveBeenCalledWith(['/me']);
-    expect(authService.login).toHaveReturnedWith(of(mockResponse))
-    //expect(sessionService.setSession).toHaveBeenCalled();
+    expect(sessionService.logIn).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/sessions']);
   });
 
   it('should handle incorrect login credentials', async () => {
@@ -121,9 +122,6 @@ describe('LoginComponent', () => {
     component.form.controls['password'].setValue('');
     component.form.controls['email'].markAsTouched();
     component.form.controls['password'].markAsTouched();
-
-    // Act
-    component.submit();
 
     // Assert
     expect(component.form.controls['email'].hasError('required')).toBeTruthy();

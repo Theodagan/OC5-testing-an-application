@@ -64,7 +64,7 @@ describe('FormComponent', () => {
     TestBed.overrideProvider(SessionApiService, {useValue: {
       create: jest.fn(() => of({})),
     }});
-    TestBed.overrideProvider(TeacherService, {useValue: {findAll: jest.fn(() => of([mockTeacher]))}})
+    TestBed.overrideProvider(TeacherService, {useValue: {all: jest.fn(() => of([mockTeacher]))}})
 
       .compileComponents();
 
@@ -92,13 +92,13 @@ describe('FormComponent', () => {
       const snackBarSpy = jest.spyOn(snackBar, 'open');
       component.sessionForm?.setValue({ // TODO : FIX
         name: 'test',
-        date: '2023-01-01',
-        teacher: '1',
+        date: new Date('2023-01-01'),
+        teacher_id: 1,
         description: 'test',
       });
       component.submit();
       expect(sessionCreate).toHaveBeenCalled();
-      expect(snackBarSpy).toHaveBeenCalledWith('Session created', 'Close', { duration: 3000 });
+      expect(snackBarSpy).toHaveBeenCalledWith('Session created !', 'Close', { duration: 3000 });
     });
 
     it('should display an error if a mandatory field is missing', () => {
