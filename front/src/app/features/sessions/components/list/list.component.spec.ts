@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,14 +19,16 @@ describe('ListComponent', () => {
 
   const mockAdminSessionService = {
     sessionInformation: {
-      admin: true,
+      id: 1,
+      admin: true
     }
   };
 
   const mockUserSessionService = {
     sessionInformation: {
+      id: 2, 
       admin: false,
-    },
+    }
   };
 
   const mockSessions: Session[] = [
@@ -44,19 +47,20 @@ describe('ListComponent', () => {
       description: 'Description 2',
       teacher_id: 2,
       users: [],
-    },
+    },   
   ];
 
   const mockSessionApiService = {
-    findAll: jest.fn().mockReturnValue(of(mockSessions)),
+    all: jest.fn().mockReturnValue(of(mockSessions)),
   };
 
-  beforeEach(async () => {
+  async function setup(serviceMock: any) {
+    TestBed.resetTestingModule();
     await TestBed.configureTestingModule({
       declarations: [ListComponent],
-      imports: [HttpClientTestingModule, MatCardModule, MatIconModule],
+      imports: [HttpClientTestingModule, MatCardModule, MatIconModule, RouterTestingModule],
       providers: [
-        { provide: SessionService, useValue: mockAdminSessionService },
+        { provide: SessionService, useValue: serviceMock },
         { provide: SessionApiService, useValue: mockSessionApiService },
       ],
     }).compileComponents();
@@ -65,6 +69,11 @@ describe('ListComponent', () => {
     component = fixture.componentInstance;
     sessionApiService = TestBed.inject(SessionApiService);
     sessionService = TestBed.inject(SessionService);
+    fixture.detectChanges();
+  }
+
+  beforeEach(async () => {
+    await setup(mockUserSessionService);
     fixture.detectChanges();
   });
 
@@ -76,29 +85,37 @@ describe('ListComponent', () => {
     expect(sessionApiService.all).toHaveBeenCalled();
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelectorAll('mat-card').length).toBe(2);
+    expect(compiled.querySelectorAll('mat-card').length).toBe(mockSessions.length + 1); // +1 for the mat-card wrapper
   });
 
-  it('should show Create and Detail buttons if the logged-in user is an admin', () => {
+  it('should show Create and Detail buttons if the logged-in user is an admin', async () => {
+    await setup(mockAdminSessionService);
+    fixture.detectChanges();
+
     sessionService = TestBed.inject(SessionService);
     expect(sessionService.sessionInformation?.admin).toBeTruthy();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('#create')).toBeTruthy();
-    expect(compiled.querySelector('#detail')).toBeTruthy();
+    expect(isButtonVisble(fixture, "Detail")).toBeTruthy();
+    expect(isButtonVisble(fixture, "Edit")).toBeTruthy();
   });
 
-  it('should not show Create button if the logged-in user is not an admin', () => {
-    TestBed.overrideProvider(SessionService, {
-      useValue: mockUserSessionService,
-    });
-    fixture = TestBed.createComponent(ListComponent);
-    component = fixture.componentInstance;
+  it('should not show Create button if the logged-in user is not an admin', async () => {
+    await setup(mockUserSessionService);
     fixture.detectChanges();
 
     sessionService = TestBed.inject(SessionService);
     expect(sessionService.sessionInformation?.admin).toBeFalsy();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('#create')).toBeFalsy();
-    expect(compiled.querySelector('#detail')).toBeTruthy();
+    expect(isButtonVisble(fixture, "Detail")).toBeFalsy();
+    expect(isButtonVisble(fixture, "Edit")).toBeTruthy();
   });
 });
+
+function isButtonVisble (fixture: ComponentFixture<any>, buttonText: string){
+  const domButtons = fixture.nativeElement.querySelectorAll('button[mat-raised-button] span.ml1');
+  let isButtonVisible = false;
+  for (let i = 0; i < domButtons.length; i++){
+    if(domButtons[i].textContent === buttonText){
+      isButtonVisible = true;
+    }
+  }
+  return isButtonVisible;
+}

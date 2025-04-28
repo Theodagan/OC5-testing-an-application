@@ -34,7 +34,6 @@ describe("DetailComponent", () => {
 
   const mockAdminSessionService = {
     sessionInformation: {
-      isAdmin: true,
       id: 1,
       admin: true
     }
@@ -49,7 +48,6 @@ describe("DetailComponent", () => {
 
   const mockUserSessionService = {
     sessionInformation: {
-      isAdmin: false,
       id: 2, 
       admin: false,
     }
@@ -111,13 +109,13 @@ describe("DetailComponent", () => {
           fixture.detectChanges();
 
         const domButtons = fixture.nativeElement.querySelectorAll('button[mat-raised-button][color="warn"] span.ml1');
-          let isDeleteButtonVisible = false;
-          for (let i = 0; i < domButtons.length; i++){
-            if(domButtons[i].textContent === 'Delete'){
-              isDeleteButtonVisible = true;
-            }
+        let isDeleteButtonVisible = false;
+        for (let i = 0; i < domButtons.length; i++){
+          if(domButtons[i].textContent === 'Delete'){
+            isDeleteButtonVisible = true;
           }
-          expect(isDeleteButtonVisible).toBeTruthy();
+        }
+        expect(isDeleteButtonVisible).toBeTruthy();
     });
   });
   
