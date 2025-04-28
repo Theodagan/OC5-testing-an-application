@@ -69,12 +69,9 @@ describe('FormComponent', () => {
       ],
       declarations: [FormComponent]
     })
-    TestBed.overrideProvider(SessionApiService, {useValue: {
-      create: jest.fn(() => of({})),
-    }});
-    TestBed.overrideProvider(TeacherService, {useValue: {all: jest.fn(() => of([mockTeacher]))}})
-
-      .compileComponents();
+    
+    TestBed.overrideProvider(SessionApiService, {useValue: {create: jest.fn(() => of({})),}});
+    TestBed.overrideProvider(TeacherService, {useValue: {all: jest.fn(() => of([mockTeacher]))}}).compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
