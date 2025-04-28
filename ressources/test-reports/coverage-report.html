@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Test Coverage Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+            padding: 10px;
+        }
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .folder {
+            font-weight: bold;
+            background-color: #eef7fb;
+        }
+        .file {
+            padding-left: 20px;
+        }
+        .good {
+            background-color: #e6ffe6;
+        }
+        .medium {
+            background-color: #ffffcc;
+        }
+        .poor {
+            background-color: #ffe6e6;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+        }
+        .summary ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frontend Test Coverage Report</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>% Stmts</th>
+                <th>% Branch</th>
+                <th>% Funcs</th>
+                <th>% Lines</th>
+                <th>Uncovered Line #s</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Overall summary -->
+            <tr class="folder">
+                <td><strong>All files</strong></td>
+                <td>88.63</td>
+                <td>52.94</td>
+                <td>73.77</td>
+                <td>88.48</td>
+                <td></td>
+            </tr>
+            
+            <!-- App folder -->
+            <tr class="folder">
+                <td><strong>app</strong></td>
+                <td>78.57</td>
+                <td>100</td>
+                <td>33.33</td>
+                <td>75</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">app.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">app.component.ts</td>
+                <td>76.92</td>
+                <td class="good">100</td>
+                <td class="poor">33.33</td>
+                <td>72.72</td>
+                <td>21-26</td>
+            </tr>
+            
+            <!-- Me component -->
+            <tr class="folder">
+                <td><strong>app/components/me</strong></td>
+                <td>70</td>
+                <td class="good">100</td>
+                <td class="poor">33.33</td>
+                <td class="poor">66.66</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">me.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">me.component.ts</td>
+                <td>68.42</td>
+                <td class="good">100</td>
+                <td class="poor">33.33</td>
+                <td class="poor">64.7</td>
+                <td>26-39</td>
+            </tr>
+            
+            <!-- Not found component -->
+            <tr class="folder">
+                <td><strong>app/components/not-found</strong></td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">not-found.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">not-found.component.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            
+            <!-- Login component -->
+            <tr class="folder">
+                <td><strong>app/features/auth/components/login</strong></td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">login.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">login.component.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            
+            <!-- Register component -->
+            <tr class="folder">
+                <td><strong>app/features/auth/components/register</strong></td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">register.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">register.component.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            
+            <!-- Auth services -->
+            <tr class="folder">
+                <td><strong>app/features/auth/services</strong></td>
+                <td>88.88</td>
+                <td class="good">100</td>
+                <td>66.66</td>
+                <td>85.71</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">auth.service.ts</td>
+                <td>88.88</td>
+                <td class="good">100</td>
+                <td>66.66</td>
+                <td>85.71</td>
+                <td>22</td>
+            </tr>
+            
+            <!-- Detail component -->
+            <tr class="folder">
+                <td><strong>app/features/sessions/components/detail</strong></td>
+                <td>78.94</td>
+                <td class="good">100</td>
+                <td class="poor">46.15</td>
+                <td>84.84</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">detail.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">detail.component.ts</td>
+                <td>78.37</td>
+                <td class="good">100</td>
+                <td class="poor">46.15</td>
+                <td>84.37</td>
+                <td>44,52-62,73</td>
+            </tr>
+            
+            <!-- Form component -->
+            <tr class="folder">
+                <td><strong>app/features/sessions/components/form</strong></td>
+                <td>81.57</td>
+                <td class="poor">52.94</td>
+                <td>75</td>
+                <td>80.55</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">form.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">form.component.ts</td>
+                <td>81.08</td>
+                <td class="poor">52.94</td>
+                <td>75</td>
+                <td>80</td>
+                <td>35,39-43,57-59</td>
+            </tr>
+            
+            <!-- List component -->
+            <tr class="folder">
+                <td><strong>app/features/sessions/components/list</strong></td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">list.component.html</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">list.component.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            
+            <!-- Sessions services -->
+            <tr class="folder">
+                <td><strong>app/features/sessions/services</strong></td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">session-api.service.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            
+            <!-- App services -->
+            <tr class="folder">
+                <td><strong>app/services</strong></td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">session.service.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">teacher.service.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="file">user.service.ts</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td class="good">100</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="summary">
+        <h2>Coverage Summary</h2>
+        <p><strong>Overall Coverage:</strong> 88.48% line coverage across all files</p>
+        
+        <h3>Areas with Excellent Coverage (100%)</h3>
+        <ul>
+            <li>Authentication components (login and register)</li>
+            <li>Not-found component</li>
+            <li>List component</li>
+            <li>All services (except auth.service)</li>
+        </ul>
+        
+        <h3>Areas Needing Improvement</h3>
+        <ul>
+            <li><strong>Me Component:</strong> 66.66% line coverage, 33.33% function coverage</li>
+            <li><strong>Form Component:</strong> 80.55% line coverage, 52.94% branch coverage</li>
+            <li><strong>Detail Component:</strong> 84.84% line coverage, 46.15% function coverage</li>
+            <li><strong>App Component:</strong> 75% line coverage, 33.33% function coverage</li>
+        </ul>
+        
+        <h3>Recommendations</h3>
+        <p>Focus testing efforts on:</p>
+        <ol>
+            <li>Improving function coverage in Me Component and Detail Component</li>
+            <li>Adding branch coverage tests for Form Component</li>
+            <li>Adding tests for uncovered lines in app.component.ts (lines 21-26)</li>
+        </ol>
+    </div>
+</body>
+</html>
