@@ -104,8 +104,8 @@ describe('ListComponent', () => {
 
     sessionService = TestBed.inject(SessionService);
     expect(sessionService.sessionInformation?.admin).toBeFalsy();
-    expect(isButtonVisble(fixture, "Detail")).toBeFalsy();
-    expect(isButtonVisble(fixture, "Edit")).toBeTruthy();
+    expect(isButtonVisble(fixture, "Detail")).toBeTruthy();
+    expect(isButtonVisble(fixture, "Edit")).toBeFalsy();
   });
 });
 
