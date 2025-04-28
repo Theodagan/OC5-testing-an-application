@@ -21,6 +21,8 @@ import { FormComponent } from './form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Session } from '../../interfaces/session.interface';
 
+import { NgZone } from "@angular/core";
+
 
 describe('FormComponent', () => {
   let component: FormComponent;
@@ -96,13 +98,18 @@ describe('FormComponent', () => {
     it('should create a session', () => {
       const sessionCreate = jest.spyOn(sessionApiService, 'create').mockReturnValue(of({} as Session));
       const snackBarSpy = jest.spyOn(snackBar, 'open');
+      const ngZone = TestBed.inject(NgZone);
+
       component.sessionForm?.setValue({ // TODO : FIX
         name: 'test',
         date: new Date('2023-01-01'),
         teacher_id: 1,
         description: 'test',
       });
-      component.submit();
+
+      ngZone.run(() => {
+        component.submit();
+    });
       expect(sessionCreate).toHaveBeenCalled();
       expect(snackBarSpy).toHaveBeenCalledWith('Session created !', 'Close', { duration: 3000 });
     });
