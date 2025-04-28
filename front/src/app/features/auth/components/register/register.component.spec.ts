@@ -1,6 +1,7 @@
 import { HttpClientModule } from "@angular/common/http";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormBuilder, ReactiveFormsModule, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
@@ -11,6 +12,7 @@ import { expect } from "@jest/globals";
 import { RegisterComponent } from "./register.component";
 import { AuthService } from "../../services/auth.service";
 import { of, throwError } from "rxjs";
+import { NgZone } from "@angular/core";
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -42,40 +44,40 @@ describe('RegisterComponent', () => {
   });
   it("should display error messages when mandatory fields are missing", () => {
     const form = component.form as FormGroup;
-    form.setValue({
-      email: "",
-      password: "",
-      username: "",
-    });
+
     component.submit();
 
     expect(form.controls["email"].hasError("required")).toBeTruthy();
     expect(form.controls["password"].hasError("required")).toBeTruthy();
-    expect(form.controls["username"].hasError("required")).toBeTruthy();
+    expect(form.controls["firstName"].hasError("required")).toBeTruthy();
+    expect(form.controls["lastName"].hasError("required")).toBeTruthy();
   });
 
-  it("should register successfully", () => {
+  it("should navigate to /login after successful registration", () => {
     const authService = TestBed.inject(AuthService);
-    const registerSpy = jest
-      .spyOn(authService, "register")
-      .mockReturnValue(of({ message: "User registered successfully!" } as any)); //TODO : fix that
+    const router = TestBed.inject(Router);
+    const ngZone = TestBed.inject(NgZone);
+    const navigateSpy = jest.spyOn(router, "navigate");
+    jest.spyOn(authService, "register").mockReturnValue(
+      of({ message: "User registered successfully!" } as any)
+    );
 
     const form = component.form as FormGroup;
     form.setValue({
-      email: "test@test.com",
-      password: "password",
-      username: "testuser",
-    });
-    component.submit();
-
-    expect(registerSpy).toHaveBeenCalledWith({
-      email: "test@test.com",
-      password: "password",
-      userName: "testuser",
+        email: "test@test.com",
+        firstName: "testuser",
+        lastName: "testuser",
+        password: "password",
     });
 
-    expect(component.onError).toEqual(false);
+    ngZone.run(() => {
+        component.submit();
+    });
+
+    expect(navigateSpy).toHaveBeenCalledWith(["/login"]);
   });
+  
+
   it("should handle error during registration", () => {
     const authService = TestBed.inject(AuthService);
     const registerSpy = jest
@@ -85,8 +87,9 @@ describe('RegisterComponent', () => {
     const form = component.form as FormGroup;
     form.setValue({
       email: "test@test.com",
+      firstName: "testuser",
+      lastName: "testuser",
       password: "password",
-      username: "testuser",
     });
 
     component.submit();

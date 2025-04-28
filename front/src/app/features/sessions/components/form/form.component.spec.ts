@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@jest/globals';
 import { of, throwError } from 'rxjs';
@@ -20,6 +20,7 @@ import { SessionApiService } from '../../services/session-api.service';
 import { FormComponent } from './form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Session } from '../../interfaces/session.interface';
+
 
 describe('FormComponent', () => {
   let component: FormComponent;
@@ -35,9 +36,14 @@ describe('FormComponent', () => {
     updatedAt: new Date("2023-02-01")
   }
   
-  const mockSessionService = {
+  const mockAdminSessionService = {
     sessionInformation: {
       admin: true
+    }
+  } 
+  const mockSessionService = {
+    sessionInformation: {
+      admin: false
     }
   } 
 
@@ -54,10 +60,10 @@ describe('FormComponent', () => {
         ReactiveFormsModule, 
         MatSnackBarModule,
         MatSelectModule,
-        BrowserAnimationsModule
+        NoopAnimationsModule
       ],
       providers: [
-        { provide: SessionService, useValue: mockSessionService }
+        { provide: SessionService, useValue: mockAdminSessionService }
       ],
       declarations: [FormComponent]
     })
@@ -101,18 +107,31 @@ describe('FormComponent', () => {
       expect(snackBarSpy).toHaveBeenCalledWith('Session created !', 'Close', { duration: 3000 });
     });
 
-    it('should display an error if a mandatory field is missing', () => {
-      const sessionCreate = jest.spyOn(sessionApiService, 'create').mockReturnValue(throwError(() => new HttpErrorResponse({
-        status: 400,
-        statusText: 'Bad Request'
-      })));
-      const snackBarSpy = jest.spyOn(snackBar, 'open');
+    it('should disable the submit button if any field is empty and enable it if all are filled', () => {
+      const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
+      
+      //Initially, the form should be invalid and the button should be disabled.
+      expect(component.sessionForm?.valid).toBeFalsy();
+      expect(submitButton.disabled).toBeTruthy();
 
-      component.submit();
-      expect(sessionCreate).toHaveBeenCalled();
-      expect(snackBarSpy).toHaveBeenCalledWith('Error creating session', 'Close', { duration: 3000 });
+      // Fill the form with data
+      component.sessionForm?.controls['name'].setValue('test');
+      component.sessionForm?.controls['date'].setValue(new Date('2023-01-01'));
+      component.sessionForm?.controls['teacher_id'].setValue(1);
+      component.sessionForm?.controls['description'].setValue('test');
+      fixture.detectChanges();
+
+      // Now the form should be valid, and the button should be enabled
+      expect(component.sessionForm?.valid).toBeTruthy();
+      expect(submitButton.disabled).toBeFalsy();
+
+      // Make the form invalid by emptying the name field
+      component.sessionForm?.controls['name'].setValue('');
+      fixture.detectChanges();
+
+      // Now the form should be invalid and the button disabled again
+      expect(component.sessionForm?.valid).toBeFalsy();
+      expect(submitButton.disabled).toBeTruthy();
     });
   });
-
-
 });

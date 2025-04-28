@@ -130,4 +130,29 @@ describe('LoginComponent', () => {
 
   });
 
+  it('should disable the submit button if any field is empty and enable it if all are filled', () => {
+    const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
+    
+    //Initially, the form should be invalid and the button should be disabled.
+    expect(component.form?.valid).toBeFalsy();
+    expect(submitButton.disabled).toBeTruthy();
+
+    // Fill the form with data
+    component.form?.controls['email'].setValue('test@test.com');
+    component.form?.controls['password'].setValue('password');
+    fixture.detectChanges();
+
+    // Now the form should be valid, and the button should be enabled
+    expect(component.form?.valid).toBeTruthy();
+    expect(submitButton.disabled).toBeFalsy();
+
+    // Make the form invalid by emptying the email field
+    component.form?.controls['email'].setValue('');
+    fixture.detectChanges();
+
+    // Now the form should be invalid and the button disabled again
+    expect(component.form?.valid).toBeFalsy();
+    expect(submitButton.disabled).toBeTruthy();
+  });
+
 });
