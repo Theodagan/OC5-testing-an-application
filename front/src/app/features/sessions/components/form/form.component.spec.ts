@@ -1,5 +1,4 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {  ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +21,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Session } from '../../interfaces/session.interface';
 
 import { NgZone } from "@angular/core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+import { Router, Routes } from '@angular/router';
+
 
 
 describe('FormComponent', () => {
@@ -30,6 +33,8 @@ describe('FormComponent', () => {
   let sessionApiService: SessionApiService;
   let teacherService: TeacherService;
   let snackBar: MatSnackBar;
+  let router: Router;
+
   const mockTeacher: Teacher = {
     id: 1, 
     firstName: 'teacher', 
@@ -43,18 +48,25 @@ describe('FormComponent', () => {
       admin: true
     }
   } 
-  const mockSessionService = {
+  const mockUserSessionService = {
     sessionInformation: {
       admin: false
     }
   } 
 
   beforeEach(async () => {
+    await setup(mockAdminSessionService);
+    await fixture.detectChanges();
+    jest.clearAllMocks();
+  });
+
+  async function setup(serviceMock: any) {
+    TestBed.resetTestingModule();
     await TestBed.configureTestingModule({
 
       imports: [
         RouterTestingModule,
-        HttpClientModule,
+        HttpClientTestingModule,
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
@@ -65,22 +77,32 @@ describe('FormComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
-        { provide: SessionService, useValue: mockAdminSessionService }
+        { provide: SessionService, useValue: serviceMock }
       ],
       declarations: [FormComponent]
-    })
+    }).compileComponents();
     
     TestBed.overrideProvider(SessionApiService, {useValue: {create: jest.fn(() => of({})),}});
     TestBed.overrideProvider(TeacherService, {useValue: {all: jest.fn(() => of([mockTeacher]))}}).compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
+    router = TestBed.inject(Router);
+    
     fixture.detectChanges();
-  });
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('ngOnInit', () => {
+    it('should navigate to /sessions when user is not admin', async () => {
+      await setup(mockUserSessionService);
+      const ngZone = TestBed.inject(NgZone);
+      const navigateSpy = jest.spyOn(router, 'navigate');
+      ngZone.run(() => { component.ngOnInit() });
+      expect(navigateSpy).toHaveBeenCalledWith(['/sessions']);
+    });
   });
 
   describe('onSubmit', () => {
