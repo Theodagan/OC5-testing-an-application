@@ -82,7 +82,7 @@ describe('FormComponent', () => {
       declarations: [FormComponent]
     }).compileComponents();
     
-    TestBed.overrideProvider(SessionApiService, {useValue: {create: jest.fn(() => of({})),}});
+    TestBed.overrideProvider(SessionApiService, {useValue: {create: jest.fn(() => of({})),update: jest.fn(() => of({})),}});
     TestBed.overrideProvider(TeacherService, {useValue: {all: jest.fn(() => of([mockTeacher]))}}).compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
@@ -102,6 +102,18 @@ describe('FormComponent', () => {
       const navigateSpy = jest.spyOn(router, 'navigate');
       ngZone.run(() => { component.ngOnInit() });
       expect(navigateSpy).toHaveBeenCalledWith(['/sessions']);
+    });
+    it("should set onUpdate to true and get the id and call detail", async () => {
+      const ngZone = TestBed.inject(NgZone);
+      ngZone.run(() => {
+        TestBed.inject(Router).navigate(['/update', '1']).then(() => {
+          TestBed.inject(Router).navigateByUrl('/update/1').then(() => {
+            const url = TestBed.inject(Router).url;
+            expect(url).toContain('update');
+            expect(component.onUpdate).toBeTruthy();
+          });
+        });
+      })
     });
   });
 
@@ -128,9 +140,32 @@ describe('FormComponent', () => {
 
       ngZone.run(() => {
         component.submit();
-    });
+      });
+
       expect(sessionCreate).toHaveBeenCalled();
       expect(snackBarSpy).toHaveBeenCalledWith('Session created !', 'Close', { duration: 3000 });
+    });
+
+    it('should update a session', () => {
+      const sessionUpdate = jest.spyOn(sessionApiService, 'update').mockReturnValue(of({} as Session));
+      const snackBarSpy = jest.spyOn(snackBar, 'open');
+      const ngZone = TestBed.inject(NgZone);
+
+      component.onUpdate = true;
+
+      component.sessionForm?.setValue({ // TODO : FIX
+        name: 'test',
+        date: new Date('2023-01-01'),
+        teacher_id: 1,
+        description: 'test',
+      });
+
+      ngZone.run(() => {
+        component.submit();
+      });
+
+      expect(sessionUpdate).toHaveBeenCalled();
+      expect(snackBarSpy).toHaveBeenCalledWith('Session updated !', 'Close', { duration: 3000 });
     });
 
     it('should disable the submit button if any field is empty and enable it if all are filled', () => {
