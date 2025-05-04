@@ -92,6 +92,10 @@ describe("DetailComponent", () => {
     expect(component).toBeTruthy();
   });
 
+  describe("participation", () => {
+    
+  });
+
   describe("display session information", () => {
     it("should display session information correctly", async () => {
         component.session = mockSession;
@@ -137,6 +141,38 @@ describe("DetailComponent", () => {
       );
     });
   });
+  
+  describe("back", () => {
+    it("should call window.history.back()", () => {
+      const historyBackSpy = jest.spyOn(window.history, 'back');
+      
+      component.back();
+      expect(historyBackSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe("session participation", () => {
+    it('should participate', async () => {
+      const sessionParticipateSpy = jest.spyOn(sessionApiService, 'participate');
+
+      component.participate();
+      await fixture.whenStable();
+
+      expect(sessionParticipateSpy).toHaveBeenCalledWith(component.sessionId, component.userId);
+      //done();
+    });
+    
+    it('should unParticipate', async () => {
+      const sessionUnParticipateSpy = jest.spyOn(sessionApiService, 'unParticipate');
+  
+      component.unParticipate();
+      await fixture.whenStable();
+  
+      expect(sessionUnParticipateSpy).toHaveBeenCalledWith(component.sessionId, component.userId);
+      //done();
+    });
+  });
+
 
 });
 
