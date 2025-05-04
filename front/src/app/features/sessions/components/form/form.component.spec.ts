@@ -103,17 +103,29 @@ describe('FormComponent', () => {
       ngZone.run(() => { component.ngOnInit() });
       expect(navigateSpy).toHaveBeenCalledWith(['/sessions']);
     });
-    it("should set onUpdate to true and get the id and call detail", async () => {
+    it("should set onUpdate to true and get the id and call detail when there is update int the url", () => {
       const ngZone = TestBed.inject(NgZone);
       ngZone.run(() => {
         TestBed.inject(Router).navigate(['/update', '1']).then(() => {
           TestBed.inject(Router).navigateByUrl('/update/1').then(() => {
             const url = TestBed.inject(Router).url;
             expect(url).toContain('update');
-            expect(component.onUpdate).toBeTruthy();
+            expect(component.onUpdate).toEqual(true);
           });
         });
       })
+    });
+    it("should set onUpdate to false and when there is not update in the url",  () => {
+      const ngZone = TestBed.inject(NgZone);
+      ngZone.run(() => {
+        TestBed.inject(Router).navigate(['/create']).then(() => {
+            const url = TestBed.inject(Router).url;
+            expect(url).not.toContain('update');
+            expect(component.onUpdate).toBeFalsy();
+            fixture.detectChanges();
+            expect(component.sessionForm).toBeDefined()
+        });
+      });
     });
   });
 
