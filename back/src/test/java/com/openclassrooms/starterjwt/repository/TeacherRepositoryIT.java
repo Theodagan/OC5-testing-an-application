@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
@@ -15,13 +15,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DataJpaTest
+
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class TeacherRepositoryIT {
 
     @Autowired
     private TeacherRepository teacherRepository;
+
 
     private Teacher teacher;
 
@@ -43,9 +45,14 @@ public class TeacherRepositoryIT {
 
     @Test
     void testFindAll() {
-        teacherRepository.save(teacher);
+        Teacher teacher1 = new Teacher().setFirstName("firstName").setLastName("lastName");
+        Teacher teacher2 = new Teacher().setFirstName("firstName").setLastName("lastName");
+
+        teacherRepository.save(teacher1);
+        teacherRepository.save(teacher2);
+
         List<Teacher> teachers = teacherRepository.findAll();
-        assertThat(teachers).hasSize(1);
+        assertEquals(2, teachers.size());
     }
 
     @Test
