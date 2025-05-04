@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  cypress:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5900:5900"  # VNC access
+    stdin_open: true
+    tty: true
+
+  vnc-client:
+    build:
+      context: ../
+      dockerfile: docker/vnc-client.Dockerfile
+    depends_on:
+      - cypress
+    environment:
+      - VNC_SERVER=cypress:5900  # VNC client will connect to the Cypress VNC server
+    stdin_open: true
+    tty: true
