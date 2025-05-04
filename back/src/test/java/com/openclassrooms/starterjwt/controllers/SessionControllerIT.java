@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -57,8 +57,6 @@ public class SessionControllerIT {
         teacher = new Teacher();
         teacher.setLastName("teacher");
         teacher.setFirstName("teacher");
-        teacher.setEmail("teacher@test.com");
-        teacher.setPassword("password");
         teacherRepository.save(teacher);
 
         user = new User();
@@ -75,8 +73,8 @@ public class SessionControllerIT {
     public void testFindById() throws Exception {
         Session session = new Session();
         session.setName("yoga session");
-        session.setDate(LocalDateTime.now());
-        session.setTeacherId(teacher.getId());
+        session.setDate(Date.from(Instant.now()));
+        session.setTeacher(teacher);
         session.setDescription("description");
         sessionRepository.save(session);
 
@@ -96,8 +94,8 @@ public class SessionControllerIT {
     public void testDelete() throws Exception {
         Session session = new Session();
         session.setName("yoga session");
-        session.setDate(LocalDateTime.now());
-        session.setTeacherId(teacher.getId());
+        session.setDate(Date.from(Instant.now()));
+        session.setTeacher(teacher);
         session.setDescription("description");
         sessionRepository.save(session);
 
@@ -113,8 +111,8 @@ public class SessionControllerIT {
     public void testCreate() throws Exception {
         Session session = new Session();
         session.setName("yoga session");
-        session.setDate(LocalDateTime.now());
-        session.setTeacherId(teacher.getId());
+        session.setDate(Date.from(Instant.now()));
+        session.setTeacher(teacher);
         session.setDescription("description");
         String sessionJson = objectMapper.writeValueAsString(session);
 
@@ -135,8 +133,8 @@ public class SessionControllerIT {
     public void testCreateShouldFailWithBadRequestWhenTeacherDoesntExist() throws Exception {
         Session session = new Session();
         session.setName("yoga session");
-        session.setDate(LocalDateTime.now());
-        session.setTeacherId(123456789L);
+        session.setDate(Date.from(Instant.now()));
+        session.setTeacher(teacherRepository.getById(123456789L));
         session.setDescription("description");
         String sessionJson = objectMapper.writeValueAsString(session);
 
@@ -152,8 +150,8 @@ public class SessionControllerIT {
     public void testFindAll() throws Exception {
         Session session = new Session();
         session.setName("yoga session");
-        session.setDate(LocalDateTime.now());
-        session.setTeacherId(teacher.getId());
+        session.setDate(Date.from(Instant.now()));
+        session.setTeacher(teacher);
         session.setDescription("description");
         sessionRepository.save(session);
 

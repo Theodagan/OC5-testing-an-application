@@ -31,7 +31,6 @@ public class TeacherRepositoryIT {
         teacher = new Teacher();
         teacher.setFirstName("firstName");
         teacher.setLastName("lastName");
-        teacher.setEmail("email@example.com");
     }
 
     @Test

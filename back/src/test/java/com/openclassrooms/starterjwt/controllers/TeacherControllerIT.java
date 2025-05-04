@@ -40,15 +40,11 @@ public class TeacherControllerIT {
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("Test");
         teacher1.setLastName("Teacher");
-        teacher1.setEmail("test.teacher@test.com");
-        teacher1.setPassword("password");
         teacherRepository.save(teacher1);
 
         Teacher teacher2 = new Teacher();
         teacher2.setFirstName("Test2");
         teacher2.setLastName("Teacher2");
-        teacher2.setEmail("test2.teacher@test.com");
-        teacher2.setPassword("password");
         teacherRepository.save(teacher2);
     }
 

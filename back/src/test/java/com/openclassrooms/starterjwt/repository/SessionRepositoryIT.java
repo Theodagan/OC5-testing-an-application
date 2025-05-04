@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,13 +32,11 @@ public class SessionRepositoryIT {
         teacher = new Teacher();
         teacher.setFirstName("John");
         teacher.setLastName("Doe");
-        teacher.setEmail("john.doe@example.com");
-        teacher.setPassword("password");
         entityManager.persist(teacher);
 
         session = new Session();
         session.setName("Yoga session");
-        session.setDate(LocalDateTime.now());
+        session.setDate(Date.from(Instant.now()));
         session.setTeacher(teacher);
         session.setDescription("Description");
         entityManager.persist(session);
@@ -62,7 +61,7 @@ public class SessionRepositoryIT {
     public void testSave() {
         Session newSession = new Session();
         newSession.setName("New Session");
-        newSession.setDate(LocalDateTime.now());
+        newSession.setDate(Date.from(Instant.now()));
         newSession.setTeacher(teacher);
         newSession.setDescription("Description");
         Session savedSession = sessionRepository.save(newSession);

@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -93,7 +94,7 @@ class TeacherServiceTest {
     @Test
     void findAll_ShouldReturnEmptyList_WhenNoTeachersExist() {
         // Arrange
-        when(teacherRepository.findAll()).thenReturn(List.of());
+        when(teacherRepository.findAll()).thenReturn(Collections.emptyList());
 
         // Act
         List<Teacher> foundTeachers = teacherService.findAll();
