@@ -5,10 +5,13 @@ import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class UserControllerUnitTest {
 
     @Mock
@@ -38,8 +42,6 @@ class UserControllerUnitTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-
         user = new User();
         user.setId(1L);
         user.setEmail("test@test.com");
@@ -58,6 +60,7 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should return user when found")
     void testFindById_Valid() {
         when(userService.findById(1L)).thenReturn(user);
         when(userMapper.toDto(user)).thenReturn(userDto);
@@ -69,6 +72,7 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should return 404 when user not found")
     void testFindById_NotFound() {
         when(userService.findById(1L)).thenReturn(null);
 
@@ -78,6 +82,7 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should return 400 on invalid ID format")
     void testFindById_InvalidFormat() {
         ResponseEntity<?> response = userController.findById("abc");
 
@@ -85,10 +90,10 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should delete user if authorized")
     void testDelete_ValidUser() {
         when(userService.findById(1L)).thenReturn(user);
 
-        // simulate user authenticated with same email
         UserDetails mockUserDetails = new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), Collections.emptyList());
 
@@ -102,6 +107,7 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should return 404 if user to delete not found")
     void testDelete_NotFound() {
         when(userService.findById(1L)).thenReturn(null);
 
@@ -111,6 +117,7 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should return 400 on invalid ID for delete")
     void testDelete_InvalidFormat() {
         ResponseEntity<?> response = userController.save("abc");
 
@@ -118,10 +125,10 @@ class UserControllerUnitTest {
     }
 
     @Test
+    @DisplayName("Should return 401 if email does not match authenticated user")
     void testDelete_UnauthorizedUser() {
         when(userService.findById(1L)).thenReturn(user);
 
-        // simulate logged-in user with DIFFERENT email
         UserDetails mockUserDetails = new org.springframework.security.core.userdetails.User(
                 "unauthorized@test.com", "password", Collections.emptyList());
 

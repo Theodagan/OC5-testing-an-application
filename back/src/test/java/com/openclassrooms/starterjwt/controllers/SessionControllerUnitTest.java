@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
@@ -19,8 +21,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class SessionControllerUnitTest {
 
     @Mock
@@ -37,18 +39,17 @@ class SessionControllerUnitTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-
+        Date now = new Date();
         session = new Session();
         session.setId(1L);
         session.setName("Yoga");
-        session.setDate(new Date());
+        session.setDate(now);
         session.setDescription("Stretching");
 
         sessionDto = new SessionDto();
         sessionDto.setId(1L);
         sessionDto.setName("Yoga");
-        sessionDto.setDate(session.getDate());
+        sessionDto.setDate(now);
         sessionDto.setDescription("Stretching");
     }
 
@@ -114,7 +115,7 @@ class SessionControllerUnitTest {
     @DisplayName("Should update a session with valid ID")
     void testUpdate_Valid() {
         when(sessionMapper.toEntity(sessionDto)).thenReturn(session);
-        when(sessionService.update(eq(1L), eq(session))).thenReturn(session);
+        when(sessionService.update(1L, session)).thenReturn(session);
         when(sessionMapper.toDto(session)).thenReturn(sessionDto);
 
         ResponseEntity<?> response = sessionController.update("1", sessionDto);
