@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.controllers;
 
 import com.openclassrooms.starterjwt.models.Teacher;
+import com.openclassrooms.starterjwt.repository.SessionRepository;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,17 +28,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestPropertySource(locations = "classpath:application-test.properties")
+@WithMockUser(username = "user@test.com", password = "password")
 public class TeacherControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
+    private SessionRepository sessionRepository;
+
+    @Autowired
     private TeacherRepository teacherRepository;
 
     @BeforeEach
     void setUp() {
+        sessionRepository.deleteAll();
         teacherRepository.deleteAll();
+
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("Test");
         teacher1.setLastName("Teacher");
