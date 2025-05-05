@@ -6,6 +6,7 @@ import com.openclassrooms.starterjwt.payload.request.LoginRequest;
 import com.openclassrooms.starterjwt.payload.request.SignupRequest;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class AuthControllerIT {
+class AuthControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,10 +41,8 @@ public class AuthControllerIT {
 
     @BeforeEach
     void setUp() {
-        // Clean database explicitly to be safe
         userRepository.deleteAll();
 
-        // Add base test user
         User testUser = new User();
         testUser.setEmail("yoga@studio.com");
         testUser.setFirstName("First");
@@ -54,6 +53,7 @@ public class AuthControllerIT {
     }
 
     @Test
+    @DisplayName("Login should return JWT token on success")
     void testLogin_Success() throws Exception {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("yoga@studio.com");
@@ -68,6 +68,7 @@ public class AuthControllerIT {
     }
 
     @Test
+    @DisplayName("Login should fail with wrong password")
     void testLogin_InvalidPassword() throws Exception {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("yoga@studio.com");
@@ -80,6 +81,7 @@ public class AuthControllerIT {
     }
 
     @Test
+    @DisplayName("Register should succeed with new email")
     void testRegister_Success() throws Exception {
         SignupRequest signupRequest = new SignupRequest();
         signupRequest.setEmail("newuser@test.com");
@@ -97,9 +99,10 @@ public class AuthControllerIT {
     }
 
     @Test
+    @DisplayName("Register should fail if email already exists")
     void testRegister_EmailAlreadyTaken() throws Exception {
         SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setEmail("yoga@studio.com"); // already exists
+        signupRequest.setEmail("yoga@studio.com");
         signupRequest.setFirstName("New");
         signupRequest.setLastName("User");
         signupRequest.setPassword("newpassword");

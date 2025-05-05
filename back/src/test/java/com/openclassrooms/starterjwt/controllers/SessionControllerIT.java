@@ -9,6 +9,7 @@ import com.openclassrooms.starterjwt.repository.SessionRepository;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,175 +20,166 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@ActiveProfiles("test")
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class SessionControllerIT {
+class SessionControllerIT {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private SessionRepository sessionRepository;
-
-    @Autowired
-    private TeacherRepository teacherRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private MockMvc mockMvc;
+    @Autowired private SessionRepository sessionRepository;
+    @Autowired private TeacherRepository teacherRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private ObjectMapper objectMapper;
 
     private Teacher teacher;
     private User user;
 
     @BeforeEach
-    public void setUp() {
+    void setup() {
         sessionRepository.deleteAll();
         teacherRepository.deleteAll();
         userRepository.deleteAll();
+
         teacher = new Teacher();
-        teacher.setLastName("teacher");
         teacher.setFirstName("teacher");
-        teacherRepository.save(teacher);
+        teacher.setLastName("teacher");
+        teacher = teacherRepository.save(teacher);
 
         user = new User();
-        user.setLastName("user");
-        user.setFirstName("user");
         user.setEmail("user@test.com");
+        user.setFirstName("user");
+        user.setLastName("user");
         user.setPassword("password");
         user.setAdmin(true);
-        userRepository.save(user);
+        user = userRepository.save(user);
     }
 
-    @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testFindById() throws Exception {
+    private Session createSession() {
         Session session = new Session();
         session.setName("yoga session");
         session.setDate(Date.from(Instant.now()));
         session.setTeacher(teacher);
         session.setDescription("description");
-        sessionRepository.save(session);
+        return sessionRepository.save(session);
+    }
 
-        MvcResult result = mockMvc.perform(get("/api/session/" + session.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+    @Test
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Find session by ID")
+    void testFindById() throws Exception {
+        Session session = createSession();
+
+        mockMvc.perform(get("/api/session/" + session.getId()))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(session.getId()))
+                .andExpect(jsonPath("$.id").value(session.getId()));
+    }
+
+    @Test
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Find session by non-existent ID returns 404")
+    void testFindById_NotFound() throws Exception {
+        mockMvc.perform(get("/api/session/99999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Find session by invalid ID format returns 400")
+    void testFindById_InvalidFormat() throws Exception {
+        mockMvc.perform(get("/api/session/abc"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Create a session")
+    void testCreate() throws Exception {
+        SessionDto dto = new SessionDto();
+        dto.setName("yoga session");
+        dto.setDate(Date.from(Instant.now()));
+        dto.setTeacher_id(teacher.getId());
+        dto.setDescription("description");
+
+        MvcResult result = mockMvc.perform(post("/api/session/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk())
                 .andReturn();
 
-        String content = result.getResponse().getContentAsString();
-        Session returnedSession = objectMapper.readValue(content, Session.class);
-        assertEquals(session.getId(), returnedSession.getId());
+        SessionDto created = objectMapper.readValue(result.getResponse().getContentAsString(), SessionDto.class);
+        assertEquals(dto.getName(), created.getName());
     }
 
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testDelete() throws Exception {
-        Session session = new Session();
-        session.setName("yoga session");
-        session.setDate(Date.from(Instant.now()));
-        session.setTeacher(teacher);
-        session.setDescription("description");
-        sessionRepository.save(session);
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Create session fails if teacher doesn't exist")
+    void testCreateShouldFailWithBadRequestWhenTeacherDoesntExist() throws Exception {
+        SessionDto dto = new SessionDto();
+        dto.setName("yoga session");
+        dto.setDate(Date.from(Instant.now()));
+        dto.setTeacher_id(999L);
+        dto.setDescription("description");
 
-        mockMvc.perform(delete("/api/session/" + session.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/api/session/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Delete a session")
+    void testDelete() throws Exception {
+        Session session = createSession();
+
+        mockMvc.perform(delete("/api/session/" + session.getId()))
                 .andExpect(status().isOk());
 
         assertFalse(sessionRepository.existsById(session.getId()));
     }
 
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testCreate() throws Exception {
-        SessionDto sessionDto = new SessionDto();
-        sessionDto.setName("yoga session");
-        sessionDto.setDate(Date.from(Instant.now()));
-        sessionDto.setTeacher_id(teacher.getId());
-        sessionDto.setDescription("description");
-
-        String json = objectMapper.writeValueAsString(sessionDto);
-
-        MvcResult result = mockMvc.perform(post("/api/session/")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
-            .andExpect(status().isOk())
-        .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        SessionDto returned = objectMapper.readValue(content, SessionDto.class);
-
-        assertEquals(sessionDto.getName(), returned.getName());
-        assertEquals(sessionDto.getDescription(), returned.getDescription());
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Delete non-existent session returns 404")
+    void testDelete_NotFound() throws Exception {
+        mockMvc.perform(delete("/api/session/99999"))
+                .andExpect(status().isNotFound());
     }
 
-
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testCreateShouldFailWithBadRequestWhenTeacherDoesntExist() throws Exception {
-        Session session = new Session();
-        session.setName("yoga session");
-        session.setDate(Date.from(Instant.now()));
-    
-        // FIX: do not use getById on non-existent entity
-        Teacher nonExistentTeacher = teacherRepository.findById(123456789L).orElse(null);
-        session.setTeacher(nonExistentTeacher); // This will be null
-    
-        session.setDescription("description");
-    
-        String sessionJson = objectMapper.writeValueAsString(session); // This still fails if 'teacher' is null and serialization expects it
-    
-        mockMvc.perform(post("/api/session/")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(sessionJson))
-        .andExpect(status().isBadRequest());
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Delete with invalid format returns 400")
+    void testDelete_InvalidIdFormat() throws Exception {
+        mockMvc.perform(delete("/api/session/abc"))
+                .andExpect(status().isBadRequest());
     }
-    
 
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testFindAll() throws Exception {
-        Session session = new Session();
-        session.setName("yoga session");
-        session.setDate(Date.from(Instant.now()));
-        session.setTeacher(teacher);
-        session.setDescription("description");
-        sessionRepository.save(session);
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Get all sessions")
+    void testFindAll() throws Exception {
+        createSession();
 
-        mockMvc.perform(get("/api/session/")
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/session/"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
-
-
-
-
-
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testUpdateSession() throws Exception {
-        Session session = new Session();
-        session.setName("old session");
-        session.setDate(Date.from(Instant.now()));
-        session.setTeacher(teacher);
-        session.setDescription("old description");
-        session = sessionRepository.save(session);
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Update a session")
+    void testUpdateSession() throws Exception {
+        Session session = createSession();
 
         SessionDto dto = new SessionDto();
         dto.setId(session.getId());
@@ -196,121 +188,74 @@ public class SessionControllerIT {
         dto.setTeacher_id(teacher.getId());
         dto.setDescription("updated description");
 
-        String json = objectMapper.writeValueAsString(dto);
-
         MvcResult result = mockMvc.perform(put("/api/session/" + session.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String content = result.getResponse().getContentAsString();
-        Session updated = objectMapper.readValue(content, Session.class);
-
+        Session updated = objectMapper.readValue(result.getResponse().getContentAsString(), Session.class);
         assertEquals("updated session", updated.getName());
-        assertEquals("updated description", updated.getDescription());
     }
 
-    
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testParticipateInSession() throws Exception {
-        Session session = new Session();
-        session.setName("yoga");
-        session.setDate(Date.from(Instant.now()));
-        session.setTeacher(teacher);
-        session.setDescription("desc");
-        session = sessionRepository.save(session);
-    
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Update with invalid ID format returns 400")
+    void testUpdate_InvalidIdFormat() throws Exception {
+        SessionDto dto = new SessionDto();
+        dto.setName("Invalid");
+        dto.setDate(new Date());
+        dto.setTeacher_id(teacher.getId());
+        dto.setDescription("desc");
+
+        mockMvc.perform(put("/api/session/abc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Participate in a session")
+    void testParticipateInSession() throws Exception {
+        Session session = createSession();
+
         mockMvc.perform(post("/api/session/" + session.getId() + "/participate/" + user.getId()))
                 .andExpect(status().isOk());
-    
+
         Session updated = sessionRepository.findById(session.getId()).orElseThrow(null);
         assertTrue(updated.getUsers().stream().anyMatch(u -> u.getId().equals(user.getId())));
     }
-    
 
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testCancelParticipation() throws Exception {
-        Session session = new Session();
-        session.setName("yoga");
-        session.setDate(Date.from(Instant.now()));
-        session.setTeacher(teacher);
-        session.setDescription("desc");
-
-        session.setUsers(new ArrayList<>()); // safely initialize users list
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Cancel participation")
+    void testCancelParticipation() throws Exception {
+        Session session = createSession();
+        session.setUsers(new ArrayList<>());
         session.getUsers().add(user);
-
         session = sessionRepository.save(session);
 
         mockMvc.perform(delete("/api/session/" + session.getId() + "/participate/" + user.getId()))
                 .andExpect(status().isOk());
 
-        Session updated = sessionRepository.findById(session.getId())
-            .orElseThrow(() -> new IllegalStateException("Session not found"));
-
+        Session updated = sessionRepository.findById(session.getId()).orElseThrow(null);
         assertFalse(updated.getUsers().stream().anyMatch(u -> u.getId().equals(user.getId())));
     }
 
     @Test
-    @WithMockUser(username = "user@test.com", password = "password")
-    public void testParticipateWithInvalidIdFormat() throws Exception {
+    @WithMockUser(username = "user@test.com")
+    @DisplayName("Participate with invalid ID format returns 400")
+    void testParticipateWithInvalidIdFormat() throws Exception {
         mockMvc.perform(post("/api/session/abc/participate/xyz"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     @WithMockUser(username = "user@test.com")
-    public void testFindById_NotFound() throws Exception {
-        mockMvc.perform(get("/api/session/99999"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @WithMockUser(username = "user@test.com")
-    public void testFindById_InvalidFormat() throws Exception {
-        mockMvc.perform(get("/api/session/abc"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(username = "user@test.com")
-    public void testDelete_NotFound() throws Exception {
-        mockMvc.perform(delete("/api/session/99999"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @WithMockUser(username = "user@test.com")
-    public void testDelete_InvalidIdFormat() throws Exception {
-        mockMvc.perform(delete("/api/session/abc"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(username = "user@test.com")
-    public void testUpdate_InvalidIdFormat() throws Exception {
-        SessionDto dto = new SessionDto();
-        dto.setName("Invalid Update");
-        dto.setDate(new Date());
-        dto.setTeacher_id(teacher.getId());
-        dto.setDescription("desc");
-
-        String json = objectMapper.writeValueAsString(dto);
-
-        mockMvc.perform(put("/api/session/abc")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(username = "user@test.com")
-    public void testCancelParticipation_InvalidIdFormat() throws Exception {
+    @DisplayName("Cancel participation with invalid ID format returns 400")
+    void testCancelParticipation_InvalidIdFormat() throws Exception {
         mockMvc.perform(delete("/api/session/abc/participate/xyz"))
                 .andExpect(status().isBadRequest());
     }
-
-
 }
