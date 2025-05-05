@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -23,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class UserControllerIT {
 
@@ -47,6 +50,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "test@test.com")
     public void testFindById() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/api/user/" + user.getId())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -57,7 +61,6 @@ public class UserControllerIT {
         resultActions.andExpect(jsonPath("$.firstName").value("firstName"));
         resultActions.andExpect(jsonPath("$.lastName").value("lastName"));
         resultActions.andExpect(jsonPath("$.admin").value(false));
-
     }
 
     @Test
@@ -68,7 +71,8 @@ public class UserControllerIT {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    @WithMockUser(username = "test@test.com")
+    public void testDelete_Ok() throws Exception {
         mockMvc.perform(delete("/api/user/" + user.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -78,9 +82,36 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(username = "unauthorized@test.com")
+    public void testDelete_UnauthorizedUser() throws Exception {
+        mockMvc.perform(delete("/api/user/" + user.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        // user should still exist
+        Optional<User> stillExists = userRepository.findById(user.getId());
+        assertTrue(stillExists.isPresent());
+    }
+
+    @Test
+    @WithMockUser(username = "test@test.com")
     public void testDelete_NotFound() throws Exception {
         mockMvc.perform(delete("/api/user/999999")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username = "test@test.com")
+    public void testFindById_InvalidFormat() throws Exception {
+        mockMvc.perform(get("/api/user/abc"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "test@test.com")
+    public void testDelete_InvalidFormat() throws Exception {
+        mockMvc.perform(delete("/api/user/abc"))
+                .andExpect(status().isBadRequest());
     }
 }
