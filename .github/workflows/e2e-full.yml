@@ -98,10 +98,10 @@ jobs:
       # Serve Angular frontend
       - name: 🚀 Serve frontend (Angular dist)
         run: |
-          cd front/dist
-          folder=$(ls -d */ | head -n 1)
-          http-server "$folder" -p 4200 --fallback index.html &
-          sleep 5
+          PROJECT_FOLDER=$(ls -1 front/dist | head -n 1)
+          echo "Detected Angular project folder: $PROJECT_FOLDER"
+          http-server "front/dist/$PROJECT_FOLDER" -p 4200 --fallback index.html &
+          sleep 10
 
       # Run Cypress tests (recorded in Cypress Cloud)
       - name: ✅ Cypress run (connected to Cypress Cloud)
