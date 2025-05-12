@@ -1,5 +1,10 @@
 import { defineConfig } from 'cypress'
 
+
+if (!process.env['CYPRESS_PROJECT_ID']) {
+  throw new Error('CYPRESS_PROJECT_ID is not set in the environment.')
+}
+
 export default defineConfig({
   projectId: process.env['CYPRESS_PROJECT_ID'], // from Nix env
   videosFolder: 'cypress/videos',
