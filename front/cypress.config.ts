@@ -1,16 +1,15 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
+  projectId: process.env['CYPRESS_PROJECT_ID'], // from Nix env
   videosFolder: 'cypress/videos',
   screenshotsFolder: 'cypress/screenshots',
   fixturesFolder: 'cypress/fixtures',
-  video: false,
+  video: true, // needed to record runs on Cypress Cloud
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.ts').default(on, config)
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: process.env['CYPRESS_BASE_URL'] || 'http://localhost:4200',
   },
 })
