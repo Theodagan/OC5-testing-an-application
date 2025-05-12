@@ -24,7 +24,7 @@ jobs:
 
       - name: 🏗️ Build Angular frontend
         working-directory: front
-        run: npm run build
+        run: npx ng build
 
       - name: ⬆️ Upload Angular dist
         uses: actions/upload-artifact@v4
