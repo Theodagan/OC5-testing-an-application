@@ -1,0 +1,118 @@
+name: E2E Tests (Build + Test Toggle)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_apps:
+        description: 'Build Angular + Java (true) or reuse existing artifacts (false)'
+        required: true
+        default: 'true'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: yoga
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # Build Angular if requested
+      - name: 📦 Install and Build Angular
+        if: ${{ inputs.build_apps == 'true' }}
+        working-directory: front
+        run: |
+          npm ci
+          npx ng build
+
+      # Build Spring Boot if requested
+      - name: 🏗️ Build Spring Boot app
+        if: ${{ inputs.build_apps == 'true' }}
+        working-directory: back
+        run: mvn clean install -DskipTests
+
+      # Upload artifacts if just built
+      - name: ⬆️ Upload Angular dist
+        if: ${{ inputs.build_apps == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: angular-dist
+          path: front/dist
+
+      - name: ⬆️ Upload Spring Boot JAR
+        if: ${{ inputs.build_apps == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-boot-jar
+          path: back/target/*.jar
+
+      # Download artifacts if reusing
+      - name: 📥 Download frontend artifact
+        if: ${{ inputs.build_apps == 'false' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: angular-dist
+          path: front/dist
+
+      - name: 📥 Download backend artifact
+        if: ${{ inputs.build_apps == 'false' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: spring-boot-jar
+          path: back/target
+
+      # Start backend
+      - name: 🚀 Start backend API
+        run: |
+          nohup java -jar back/target/*.jar \
+            --spring.datasource.url=jdbc:mysql://localhost:3306/yoga \
+            --spring.datasource.username=root \
+            --spring.datasource.password=root &
+          sleep 10
+
+      # Serve frontend
+      - name: 🚀 Serve frontend (Angular dist)
+        run: |
+          npm install -g http-server
+          http-server front/dist -p 4200 &
+          sleep 5
+
+      # Run Cypress
+      - name: ✅ Cypress run (connected to Cypress Cloud)
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: front
+          start: http-server dist -p 4200
+          wait-on: 'http://localhost:4200'
+          browser: chrome
+          headless: true
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
