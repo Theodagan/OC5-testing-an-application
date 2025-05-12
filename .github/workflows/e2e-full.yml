@@ -108,10 +108,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: front
-          start: http-server dist -p 4200
           wait-on: 'http://localhost:4200'
           browser: chrome
-          headless: true
           record: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
