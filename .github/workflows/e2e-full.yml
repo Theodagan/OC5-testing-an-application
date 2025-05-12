@@ -1,7 +1,7 @@
-name: E2E Tests (Auto Fallback Build)
+name: E2E Tests (Cached Build + Test)
 
 on:
-  workflow_dispatch: # Manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   e2e-tests:
@@ -27,6 +27,24 @@ jobs:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
 
+      # 🧰 Angular dependencies cache
+      - name: 📦 Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: front/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # ☕ Maven local repo cache
+      - name: ☕ Cache Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: ⚙️ Setup Node
         uses: actions/setup-node@v3
         with:
@@ -38,55 +56,52 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      # Attempt to download pre-built Angular artifact
-      - name: 📥 Try Download Angular artifact
+      # ⬇️ Try downloading artifacts (fallback to build if not found)
+      - name: 📥 Try download Angular dist
         continue-on-error: true
-        id: download_front
         uses: actions/download-artifact@v4
         with:
           name: angular-dist
           path: front/dist
 
-      # Attempt to download pre-built backend artifact
-      - name: 📥 Try Download Backend artifact
+      - name: 📥 Try download Spring Boot JAR
         continue-on-error: true
-        id: download_back
         uses: actions/download-artifact@v4
         with:
           name: spring-boot-jar
           path: back/target
 
-      # Build Angular if artifact is missing
+      # 📦 Build Angular if dist not found
       - name: 📦 Install and Build Angular
-        if: steps.download_front.outcome == 'failure'
+        if: steps.angular-dist.outputs.download-path == ''
         working-directory: front
         run: |
           npm ci
           npx ng build
 
-      # Build Spring Boot if artifact is missing
+      # 🏗️ Build Spring Boot app if JAR not found
       - name: 🏗️ Build Spring Boot app
-        if: steps.download_back.outcome == 'failure'
+        if: steps.spring-boot-jar.outputs.download-path == ''
         working-directory: back
         run: mvn clean install -DskipTests
 
-      # Upload Angular artifact if it was built
+      # ⬆️ Upload Angular dist if just built
       - name: ⬆️ Upload Angular dist
-        if: steps.download_front.outcome == 'failure'
+        if: steps.angular-dist.outputs.download-path == ''
         uses: actions/upload-artifact@v4
         with:
           name: angular-dist
           path: front/dist
 
-      # Upload backend artifact if it was built
+      # ⬆️ Upload Spring Boot JAR if just built
       - name: ⬆️ Upload Spring Boot JAR
-        if: steps.download_back.outcome == 'failure'
+        if: steps.spring-boot-jar.outputs.download-path == ''
         uses: actions/upload-artifact@v4
         with:
           name: spring-boot-jar
           path: back/target/*.jar
 
-      # Start backend API
+      # 🚀 Start Spring Boot API
       - name: 🚀 Start backend API
         run: |
           nohup java -jar back/target/*.jar \
@@ -95,25 +110,27 @@ jobs:
             --spring.datasource.password=root &
           sleep 10
 
-      # Serve Angular frontend
-      - name: 🚀 Serve frontend (Angular dist)
+      # 🚀 Serve Angular dist via http-server
+      - name: 🔍 Detect Angular dist folder
+        id: detect-dist
+        run: echo "folder=$(ls -1 front/dist | head -n 1)" >> "$GITHUB_OUTPUT"
+
+      - name: 🚀 Serve frontend (http-server)
         run: |
           npm install -g http-server
-          cd front/dist
-          folder=$(ls -d */ | head -n 1)
-          http-server "$folder" -p 4200 --fallback index.html &
+          npx http-server front/dist/${{ steps.detect-dist.outputs.folder }} -p 4200 --spa &
           sleep 5
 
-      # Run Cypress tests (recorded in Cypress Cloud)
-      - name: ✅ Cypress run (connected to Cypress Cloud)
+      # ✅ Run Cypress tests
+      - name: ✅ Cypress run (Cypress Cloud)
         uses: cypress-io/github-action@v6
         with:
           working-directory: front
           wait-on: 'http://localhost:4200'
           browser: chrome
+          headless: true
           record: true
         env:
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # CYPRESS_BASE_URL: 4200-idx-test59-1744989931195.cluster-c3a7z3wnwzapkx3rfr5kz62dac.cloudworkstations.dev
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
