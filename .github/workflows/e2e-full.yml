@@ -1,12 +1,7 @@
-name: E2E Tests (Build + Test Toggle)
+name: E2E Tests (Auto Fallback Build)
 
 on:
-  workflow_dispatch:
-    inputs:
-      build_apps:
-        description: 'Build Angular + Java (true) or reuse existing artifacts (false)'
-        required: true
-        default: 'true'
+  workflow_dispatch: # Manual trigger from GitHub UI
 
 jobs:
   e2e-tests:
@@ -35,7 +30,7 @@ jobs:
       - name: ⚙️ Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 18
 
       - name: ☕ Setup Java
         uses: actions/setup-java@v3
@@ -43,51 +38,55 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      # Build Angular if requested
-      - name: 📦 Install and Build Angular
-        if: ${{ inputs.build_apps == 'true' }}
-        working-directory: front
-        run: |
-          npm ci
-          npx ng build
-
-      # Build Spring Boot if requested
-      - name: 🏗️ Build Spring Boot app
-        if: ${{ inputs.build_apps == 'true' }}
-        working-directory: back
-        run: mvn clean install -DskipTests
-
-      # Upload artifacts if just built
-      - name: ⬆️ Upload Angular dist
-        if: ${{ inputs.build_apps == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: angular-dist
-          path: front/dist
-
-      - name: ⬆️ Upload Spring Boot JAR
-        if: ${{ inputs.build_apps == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: spring-boot-jar
-          path: back/target/*.jar
-
-      # Download artifacts if reusing
-      - name: 📥 Download frontend artifact
-        if: ${{ inputs.build_apps == 'false' }}
+      # Attempt to download pre-built Angular artifact
+      - name: 📥 Try Download Angular artifact
+        continue-on-error: true
+        id: download_front
         uses: actions/download-artifact@v4
         with:
           name: angular-dist
           path: front/dist
 
-      - name: 📥 Download backend artifact
-        if: ${{ inputs.build_apps == 'false' }}
+      # Attempt to download pre-built backend artifact
+      - name: 📥 Try Download Backend artifact
+        continue-on-error: true
+        id: download_back
         uses: actions/download-artifact@v4
         with:
           name: spring-boot-jar
           path: back/target
 
-      # Start backend
+      # Build Angular if artifact is missing
+      - name: 📦 Install and Build Angular
+        if: steps.download_front.outcome == 'failure'
+        working-directory: front
+        run: |
+          npm ci
+          npx ng build
+
+      # Build Spring Boot if artifact is missing
+      - name: 🏗️ Build Spring Boot app
+        if: steps.download_back.outcome == 'failure'
+        working-directory: back
+        run: mvn clean install -DskipTests
+
+      # Upload Angular artifact if it was built
+      - name: ⬆️ Upload Angular dist
+        if: steps.download_front.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: angular-dist
+          path: front/dist
+
+      # Upload backend artifact if it was built
+      - name: ⬆️ Upload Spring Boot JAR
+        if: steps.download_back.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-boot-jar
+          path: back/target/*.jar
+
+      # Start backend API
       - name: 🚀 Start backend API
         run: |
           nohup java -jar back/target/*.jar \
@@ -96,14 +95,14 @@ jobs:
             --spring.datasource.password=root &
           sleep 10
 
-      # Serve frontend
+      # Serve Angular frontend
       - name: 🚀 Serve frontend (Angular dist)
         run: |
           npm install -g http-server
           http-server front/dist -p 4200 &
           sleep 5
 
-      # Run Cypress
+      # Run Cypress tests (recorded in Cypress Cloud)
       - name: ✅ Cypress run (connected to Cypress Cloud)
         uses: cypress-io/github-action@v6
         with:
@@ -112,6 +111,6 @@ jobs:
           browser: chrome
           record: true
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
