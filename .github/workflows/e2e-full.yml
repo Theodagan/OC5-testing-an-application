@@ -113,4 +113,5 @@ jobs:
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_BASE_URL: 4200-idx-test59-1744989931195.cluster-c3a7z3wnwzapkx3rfr5kz62dac.cloudworkstations.dev
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
