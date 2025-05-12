@@ -98,8 +98,9 @@ jobs:
       # Serve Angular frontend
       - name: 🚀 Serve frontend (Angular dist)
         run: |
-          npm install -g http-server
-          http-server front/dist -p 4200 &
+          cd front/dist
+          folder=$(ls -d */ | head -n 1)
+          http-server "$folder" -p 4200 --fallback index.html &
           sleep 5
 
       # Run Cypress tests (recorded in Cypress Cloud)
