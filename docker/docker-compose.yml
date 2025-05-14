@@ -1,39 +1,43 @@
 version: '3.8'
 
 services:
-  frontend:
-    build: ./front
-    ports:
-      - "4200:4200"
-    volumes:
-      - ./front:/app
-    command: npm start
-
-  backend:
-    build: ./back
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-
-  db:
+  mysql:
     image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
+
+  backend:
+    build:
+      context: ../back
+      dockerfile: ../docker/Dockerfile.backend
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app
-    volumes:
-      - ./docker/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ../front
+      dockerfile: ../docker/Dockerfile.frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
 
   cypress:
-    image: cypress/included:14.3.3
+    image: cypress/included:14.3.2
+    working_dir: /e2e
+    volumes:
+      - ../front:/e2e
+    entrypoint: ["npx", "cypress", "run", "--browser", "chrome"]
     depends_on:
       - frontend
-      - backend
-    environment:
-      - CYPRESS_baseUrl=http://frontend:4200
-    volumes:
-      - ./e2e:/e2e
-    working_dir: /e2e
-    entrypoint: ["npx", "cypress", "open"] # GUI mode via VNC
