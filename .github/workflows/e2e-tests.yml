@@ -1,7 +1,14 @@
-name: E2E Tests (Cached Build + Test)
+name: E2E Tests (Angular + Spring + Cypress)
 
 on:
   workflow_dispatch:
+    inputs:
+      use-cloud:
+        description: "Record to Cypress Cloud?"
+        required: false
+        default: "false"
+        type: choice
+        options: ["true", "false"]
 
 jobs:
   e2e-tests:
@@ -24,11 +31,11 @@ jobs:
           --health-retries=3
 
     steps:
-      - name: ⬇️ Checkout repository
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      # 🧰 Angular dependencies cache
-      - name: 📦 Cache node_modules
+      # 📦 Cache Angular node_modules
+      - name: 📦 Cache Angular node_modules
         uses: actions/cache@v3
         with:
           path: front/node_modules
@@ -36,8 +43,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # ☕ Maven local repo cache
-      - name: ☕ Cache Maven repository
+      # ☕ Cache Maven repository
+      - name: ☕ Cache Maven dependencies
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
@@ -45,25 +52,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: ⚙️ Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: ☕ Setup Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-
-      # ⬇️ Try downloading artifacts (fallback to build if not found)
-      - name: 📥 Try download Angular dist
-        continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          name: angular-dist
-          path: front/dist
-
+      # 📥 Try downloading Spring Boot JAR artifact
       - name: 📥 Try download Spring Boot JAR
         continue-on-error: true
         uses: actions/download-artifact@v4
@@ -71,29 +60,20 @@ jobs:
           name: spring-boot-jar
           path: back/target
 
-      # 📦 Build Angular if dist not found
-      - name: 📦 Install and Build Angular
-        if: steps.angular-dist.outputs.download-path == ''
+      # 📦 Build Angular if needed
+      - name: 📦 Install & Build Angular
         working-directory: front
         run: |
           npm ci
           npx ng build
 
-      # 🏗️ Build Spring Boot app if JAR not found
-      - name: 🏗️ Build Spring Boot app
+      # ☕ Build Spring Boot app if JAR not found
+      - name: ☕ Build Spring Boot JAR (if not downloaded)
         if: steps.spring-boot-jar.outputs.download-path == ''
         working-directory: back
         run: mvn clean install -DskipTests
 
-      # ⬆️ Upload Angular dist if just built
-      - name: ⬆️ Upload Angular dist
-        if: steps.angular-dist.outputs.download-path == ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: angular-dist
-          path: front/dist
-
-      # ⬆️ Upload Spring Boot JAR if just built
+      # ⬆️ Upload Spring Boot JAR
       - name: ⬆️ Upload Spring Boot JAR
         if: steps.spring-boot-jar.outputs.download-path == ''
         uses: actions/upload-artifact@v4
@@ -101,8 +81,8 @@ jobs:
           name: spring-boot-jar
           path: back/target/*.jar
 
-      # 🚀 Start Spring Boot API
-      - name: 🚀 Start backend API
+      # 🚀 Start Spring Boot backend
+      - name: 🚀 Start Spring Boot API
         run: |
           nohup java -jar back/target/*.jar \
             --spring.datasource.url=jdbc:mysql://localhost:3306/yoga \
@@ -110,26 +90,23 @@ jobs:
             --spring.datasource.password=root &
           sleep 10
 
-      # 🚀 Serve Angular dist via http-server
-      - name: 🔍 Detect Angular dist folder
-        id: detect-dist
-        run: echo "folder=$(ls -1 front/dist | head -n 1)" >> "$GITHUB_OUTPUT"
-
-      - name: 🚀 Serve frontend (http-server)
+      # 🚀 Serve Angular using ng serve to support routing
+      - name: 🚀 Serve Angular App (ng serve)
+        working-directory: front
         run: |
-          npm install -g http-server
-          npx http-server front/dist/${{ steps.detect-dist.outputs.folder }} -p 4200 --spa &
-          sleep 5
+          npm install -g @angular/cli
+          ng serve --host 0.0.0.0 --port 4200 &
+          sleep 15
 
       # ✅ Run Cypress tests
-      - name: ✅ Cypress run (Cypress Cloud)
+      - name: ✅ Cypress E2E Run
         uses: cypress-io/github-action@v6
         with:
           working-directory: front
           wait-on: 'http://localhost:4200'
           browser: chrome
           headless: true
-          record: true
+          record: ${{ github.event.inputs.use-cloud == 'true' }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
