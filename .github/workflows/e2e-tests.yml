@@ -57,11 +57,10 @@ jobs:
           name: spring-boot-jar
           path: back/target
 
-      - name: 📦 Install & Build Angular
+      - name: 📦 Install Angular
         working-directory: front
         run: |
           npm ci
-          npx ng build
 
       - name: ☕ Build Spring Boot JAR (if not downloaded)
         if: steps.spring-boot-jar.outputs.download-path == ''
