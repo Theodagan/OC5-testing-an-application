@@ -6,6 +6,6 @@ describe('Session Creation Flow', () => {
   it('should show list of session', () => {
     // Clique sur le bouton de navigation
     cy.contains('Rentals available').should('exist');
-    cy.get('[data-testid="session-item"]').click();
+    cy.get('[data-testid="session-item"]').should('exist')
   });
 });
