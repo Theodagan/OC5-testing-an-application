@@ -9,15 +9,16 @@ describe('Me Page', () => {
   };
 
   it('should display me page if session is present', () => {
+    cy.intercept('GET', '/api/user/1', mockUser).as('getUser');
     cy.login();
 
-    cy.intercept('GET', '/api/user/1', mockUser).as('getUser');
+    cy.url().should('include', '/sessions');
 
+    // Ensuite tu peux visiter /me
     cy.visit('/me');
     cy.wait('@getUser');
 
     cy.contains('test@yoga.com').should('exist');
-    cy.url().should('include', '/me');
   });
 
   it('should redirect to login if no session', () => {
