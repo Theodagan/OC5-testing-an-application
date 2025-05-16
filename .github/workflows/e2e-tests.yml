@@ -9,12 +9,6 @@ on:
         default: "false"
         type: choice
         options: ["true", "false"]
-      generate-coverage:
-        description: "Generate code coverage report?"
-        required: false
-        default: "true"
-        type: choice
-        options: ["true", "false"]
 
 jobs:
   e2e-tests:
@@ -96,7 +90,7 @@ jobs:
           ng serve --host 0.0.0.0 --port 4200 &
           sleep 15
 
-      - name: ✅ Run Cypress Tests
+      - name: ✅ Cypress E2E Run
         uses: cypress-io/github-action@v6
         with:
           working-directory: front
@@ -104,46 +98,39 @@ jobs:
           browser: chrome
           headless: true
           record: ${{ github.event.inputs.use-cloud == 'true' }}
-          config-file: cypress.config.ts
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📊 Generate Code Coverage Report (optional)
-        if: ${{ github.event.inputs.generate-coverage == 'true' }}
+      - name: 📊 Generate Code Coverage Report
         working-directory: front
-        run: |
-          npm run e2e:coverage > coverage-summary.txt
+        run: npm run e2e:coverage
+        continue-on-error: true
 
-      - name: 📤 Upload HTML Coverage Report (optional)
-        if: ${{ github.event.inputs.generate-coverage == 'true' }}
+      - name: 📤 Upload Code Coverage Artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-coverage
           path: front/coverage/
 
-      - name: 📝 Job Summary (Cypress + Coverage)
+      - name: 🔒 Enforce minimum coverage threshold
+        working-directory: front
+        run: npx nyc check-coverage --lines 80 --functions 80 --branches 70 --statements 80
+
+      - name: 📝 Add Cypress + Coverage Summary
         working-directory: front
         run: |
           echo "## ✅ Résumé du job E2E" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "<h2>🧪 Cypress Results</h2>" >> $GITHUB_STEP_SUMMARY
           echo "<table>" >> $GITHUB_STEP_SUMMARY
-          echo "<tr><th>Status</th><th>Passed ✅</th><th>Failed ❌</th><th>Pending ✋</th><th>Skipped ↩️</th><th>Duration ⏱️</th></tr>" >> $GITHUB_STEP_SUMMARY
-          echo "<tr><td>Run</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>" >> $GITHUB_STEP_SUMMARY
+          echo "<tr><th>Status</th><th>Passed ✅</th><th>Failed ❌</th><th>Skipped ⏭️</th><th>Duration ⏱️</th></tr>" >> $GITHUB_STEP_SUMMARY
+          echo "<tr><td>Run</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>" >> $GITHUB_STEP_SUMMARY
           echo "</table>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ "${{ github.event.inputs.generate-coverage }}" = "true" ]; then
-            echo "## 📊 Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            cat coverage-summary.txt >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-
-            if grep -q 'Statements.*100%' coverage-summary.txt; then
-              echo "✅ Couverture OK" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "❌ Couverture partielle – seuil non atteint" >> $GITHUB_STEP_SUMMARY
-            fi
-          fi
+          echo "## 📊 Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          npm run e2e:coverage | tee coverage.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
