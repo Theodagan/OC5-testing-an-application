@@ -14,8 +14,7 @@ describe('Me Page', () => {
 
     cy.url().should('include', '/sessions');
 
-    // Ensuite tu peux visiter /me
-    cy.visit('/me');
+    cy.get('[data-testid=nav-account]').click();
     cy.wait('@getUser');
 
     cy.contains('test@yoga.com').should('exist');
