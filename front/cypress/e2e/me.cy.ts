@@ -17,37 +17,27 @@ describe('Me Page', () => {
     updatedAt: '2023-10-27T10:00:00.000Z'
   };
 
-  beforeEach(() => {
-    // Intercept user fetch
-    cy.intercept('GET', '/api/user/1', mockUser).as('getUser');
-  });
-
   it('should display me page if session is present', () => {
-    cy.visit('/');
+    cy.intercept('GET', '/api/user/1', mockUser).as('getUser');
 
-    // Simulate logged-in session using window object
-    cy.window().then((win: any) => {
-      const ng = win.ng; // Angular debug hook (optional, works better in non-prod mode)
-      const app = win.getAllAngularRootElements?.()[0];
-      const injector = app?.injector ?? ng?.getInjector(app);
-      const sessionService = injector?.get?.(ng?.getComponent?.(app)?.sessionService) ?? undefined;
-
-      if (sessionService && sessionService.logIn) {
-        sessionService.logIn(mockSession);
-      } else {
-        // Fallback: inject using exposed test hook if app allows it
-        win.__test_session = mockSession;
-      }
-    });
-
-    // Navigate after setting session
     cy.visit('/me');
 
-    // Confirm we intercepted the request
-    cy.wait('@getUser');
+    // set the session inside the Angular context
+    cy.window().then((win: any) => {
+      const app = win.getAllAngularRootElements()[0];
+      const injector = app.injector || win.ng?.getInjector?.(app);
+      const sessionService = injector?.get?.(win.ng.getComponent(app).sessionService);
 
-    // Check user is rendered
-    cy.contains('test').should('exist');
+      expect(sessionService).to.exist;
+      sessionService.logIn(mockSession);
+    });
+
+    // re-renders with session
+    cy.reload();
+
+    // Assert data 
+    cy.wait('@getUser');
+    cy.contains('test@yoga.com').should('exist');
     cy.url().should('include', '/me');
   });
 
