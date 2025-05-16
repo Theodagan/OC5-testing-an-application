@@ -18,6 +18,8 @@ Cypress.Commands.add('login', () => {
     cy.get('input[formControlName=email]').type('test@yoga.com');
     cy.get('input[formControlName=password]').type('password123{enter}');
 
+    cy.get('button[type=submit]').click();
+
     cy.wait('@login');
 });
 
@@ -40,6 +42,8 @@ Cypress.Commands.add('loginAsAdmin', () => {
   
     cy.get('input[formControlName=email]').type('admin@yoga.com');
     cy.get('input[formControlName=password]').type('adminpass{enter}');
+
+    cy.get('button[type=submit]').click();
   
     cy.wait('@adminLogin');
   });
