@@ -22,7 +22,7 @@ describe('Me Page', () => {
 
   it('should redirect to login if no session', () => {
     cy.clearCookies(); // Si ta session passe par cookie
-    cy.visit('/me');
+    cy.get('[data-testid=nav-account]').click();
     cy.url().should('include', '/login');
   });
 });
