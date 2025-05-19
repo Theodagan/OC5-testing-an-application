@@ -11,7 +11,7 @@ Cypress.Commands.add('login', () => {
     }
     }).as('login');
 
-    cy.intercept('GET', '/api/session', []).as('getSessions');
+    // cy.intercept('GET', '/api/session', []).as('getSessions');
 
     cy.visit('/login');
 
@@ -36,7 +36,7 @@ Cypress.Commands.add('loginAsAdmin', () => {
       }
     }).as('adminLogin');
   
-    cy.intercept('GET', '/api/session', []).as('getSessions');
+    // cy.intercept('GET', '/api/session', []).as('getSessions');
   
     cy.visit('/login');
   

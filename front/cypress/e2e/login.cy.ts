@@ -1,27 +1,27 @@
-describe('Login spec', () => {
+describe('Login spec (extended)', () => {
+  beforeEach(() => {
+    cy.visit('/login');
+  });
+
   it('Login successfull', () => {
-    cy.visit('/login')
+    cy.fixture('users.json').then((users) => {
+      const user = users.find(u => !u.admin);
 
-    cy.intercept('POST', '/api/auth/login', {
-      body: {
-        id: 1,
-        username: 'userName',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        admin: true
-      },
-    })
+      cy.intercept('POST', '/api/auth/login', {
+        statusCode: 200,
+        body: user
+      }).as('login');
 
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/api/session',
-      },
-      []).as('session')
+      cy.intercept('GET', '/api/session', []).as('getSessions');
 
-    cy.get('input[formControlName=email]').type("yoga@studio.com")
-    cy.get('input[formControlName=password]').type(`${"test!1234"}{enter}{enter}`)
+      cy.get('input[formControlName=email]').type(user.email);
+      cy.get('input[formControlName=password]').type('password123');
+      cy.get('button[type=submit]').click();
 
-    cy.url().should('include', '/sessions')
-  })
+      cy.wait('@login');
+      cy.wait('@getSessions');
+
+      cy.url().should('include', '/sessions');
+    });
+  });
 });
