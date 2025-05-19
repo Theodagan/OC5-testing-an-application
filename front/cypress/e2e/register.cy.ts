@@ -48,4 +48,13 @@ describe('Register Form', () => {
 
     cy.get('.error').should('contain', 'An error occurred');
   });
+
+  it('should disable submit for invalid email format', () => {
+    cy.get('input[formControlName=firstName]').type('John');
+    cy.get('input[formControlName=lastName]').type('Doe');
+    cy.get('input[formControlName=email]').type('invalid-email'); // sans @
+    cy.get('input[formControlName=password]').type('StrongPass123');
+  
+    cy.get('button[type=submit]').should('be.disabled');
+  });
 });
