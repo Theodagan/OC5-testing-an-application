@@ -1,14 +1,29 @@
 describe('JWT Interceptor', () => {
     it('injects token from localStorage into headers', () => {
-        const token = 'mocked-jwt-token';
-        window.localStorage.setItem('token', token);
-
-        cy.intercept('GET', '/api/session', (req) => {
-        expect(req.headers.authorization).to.equal(`Bearer ${token}`);
-        req.reply([]);
-        }).as('getSessions');
-
-        cy.visit('/sessions'); 
-        cy.wait('@getSessions');
+        cy.intercept('POST', '/api/auth/login', {
+            statusCode: 200,
+            body: {
+              id: 1,
+              email: 'test@yoga.com',
+              firstName: 'Test',
+              lastName: 'User',
+              admin: false,
+              token: 'fake-token'
+            }
+          }).as('login');
+          
+          cy.visit('/login');
+          cy.get('input[formControlName=email]').type('test@yoga.com');
+          cy.get('input[formControlName=password]').type('testpass');
+          cy.get('button[type=submit]').click();
+          cy.wait('@login');
+          
+          cy.intercept('GET', '/api/session', (req) => {
+            expect(req.headers.authorization).to.equal('Bearer fake-token');
+            req.reply([]);
+          }).as('getSessions');
+          
+          cy.visit('/sessions');
+          cy.wait('@getSessions');
     });
 });
