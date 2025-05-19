@@ -8,7 +8,7 @@ describe('JWT Interceptor', () => {
         req.reply([]);
         }).as('getSessions');
 
-        cy.visit('/sessions'); // front déclenchera /api/session si token est présent
+        cy.visit('/sessions'); 
         cy.wait('@getSessions');
     });
 });
