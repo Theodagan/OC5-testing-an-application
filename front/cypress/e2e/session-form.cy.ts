@@ -13,7 +13,7 @@ describe('Session Form Page', () => {
         cy.get('input[formcontrolname="date"]').type('2025-12-31');
     
         cy.get('mat-select[formcontrolname="teacher_id"]').click();
-        cy.get('mat-option').should('be.visible').first().click();
+        cy.get('mat-select').should('be.visible').first().click();
             
         cy.get('textarea[formcontrolname="description"]').type('Test via Cypress');
     
