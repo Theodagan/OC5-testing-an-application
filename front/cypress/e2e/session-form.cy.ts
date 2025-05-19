@@ -8,13 +8,18 @@ describe('Session Form Page', () => {
     
     it('should fill and submit the form', () => {
         cy.get('[data-testid="session-form"]').should('be.visible');
+
         // REMPLIR le formulaire
         cy.get('input[formcontrolname="name"]').type('Session Cypress');
         cy.get('input[formcontrolname="date"]').type('2025-12-31');
     
-        cy.get('mat-select[formcontrolname="teacher_id"]').click().click().type('{tab}');
-        // cy.get('mat-select').select([0]);
-        cy.get('mat-option').first();
+        cy.fixture('teachers.json').then((teachers) => {
+            cy.intercept('GET', '/api/teacher', { body: teachers }).as('getSessions');
+            const teacher = teachers[0];
+            
+            cy.get('mat-select[formControlName="teacher_id"]').click();
+            cy.get('mat-option').contains(`${teacher.firstName} ${teacher.lastName}`).click();
+        });
         
         cy.get('textarea[formcontrolname="description"]').type('Test via Cypress');
     

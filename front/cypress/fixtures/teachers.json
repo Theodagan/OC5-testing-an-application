@@ -1,0 +1,23 @@
+[
+    {
+        "id": 101,
+        "lastName": "teacher",
+        "firstName": "teacher",
+        "createdAt": "2025-05-05T14:54:54",
+        "updatedAt": "2025-05-05T14:54:54"
+    },
+    {
+        "id": 102,
+        "lastName": "DELAHAYE",
+        "firstName": "Margot",
+        "createdAt": "2025-05-05T16:07:22",
+        "updatedAt": "2025-05-05T16:07:22"
+    },
+    {
+        "id": 103,
+        "lastName": "THIERCELIN",
+        "firstName": "Hélène",
+        "createdAt": "2025-05-05T16:07:22",
+        "updatedAt": "2025-05-05T16:07:22"
+    }
+]
