@@ -1,0 +1,94 @@
+name: E2E Tests (Angular + Spring + Cypress)
+
+on:
+  workflow_dispatch:
+    inputs:
+      use-cloud:
+        description: "Record to Cypress Cloud?"
+        required: false
+        default: "false"
+        type: choice
+        options: ["true", "false"]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4`
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Cache Angular node_modules
+        uses: actions/cache@v3
+        with:
+          path: front/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 📦 Install Angular
+        working-directory: front
+        run: |
+          npm ci
+
+      - name: 🚀 Start Spring Boot API
+        run: |
+          nohup java -jar back/target/*.jar \
+            --spring.datasource.url=jdbc:mysql://localhost:3306/yoga \
+            --spring.datasource.username=root \
+            --spring.datasource.password=root &
+          sleep 10
+
+      - name: 🚀 Serve Angular App (ng serve)
+        working-directory: front
+        run: |
+          npm install -g @angular/cli
+          ng serve --host 0.0.0.0 --port 4200 &
+          sleep 15
+
+      - name: ✅ Cypress E2E Run
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: front
+          wait-on: 'http://localhost:4200'
+          browser: chrome
+          headless: true
+          record: ${{ github.event.inputs.use-cloud == 'true' }}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📊 Generate Code Coverage Report
+        working-directory: front
+        run: npm run e2e:coverage
+        continue-on-error: true
+
+      - name: 📤 Upload Code Coverage Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-coverage
+          path: front/coverage/
+
+      - name: 🔒 Enforce minimum coverage threshold
+        working-directory: front
+        run: npx nyc check-coverage --lines 80 --functions 80 --branches 70 --statements 80
+
+      - name: 📝 Add Cypress + Coverage Summary
+        working-directory: front
+        run: |
+          echo "## ✅ Résumé du job E2E" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "<h2>🧪 Cypress Results</h2>" >> $GITHUB_STEP_SUMMARY
+          echo "<table>" >> $GITHUB_STEP_SUMMARY
+          echo "<tr><th>Status</th><th>Passed ✅</th><th>Failed ❌</th><th>Skipped ⏭️</th><th>Duration ⏱️</th></tr>" >> $GITHUB_STEP_SUMMARY
+          echo "<tr><td>Run</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>" >> $GITHUB_STEP_SUMMARY
+          echo "</table>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          npm run e2e:coverage | tee coverage.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
