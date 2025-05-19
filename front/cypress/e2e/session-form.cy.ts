@@ -1,7 +1,9 @@
 // cypress/e2e/session-form.cy.ts
 describe('Session Form Page', () => {
     beforeEach(() => {
+        cy.intercept('GET', '/api/teacher', { fixture: 'teachers.json' }).as('getTeachers');
         cy.loginAsAdmin();
+        y.wait('@getTeachers');
         // Clique sur le bouton de navigation    
         cy.get('[data-testid="session-create-button"]').click();
     });

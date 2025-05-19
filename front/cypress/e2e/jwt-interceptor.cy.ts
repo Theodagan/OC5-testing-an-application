@@ -1,16 +1,14 @@
 describe('JWT Interceptor', () => {
-    it('includes token in header', () => {
-        window.localStorage.setItem('token', 'mocked-jwt-token');
+    it('injects token from localStorage into headers', () => {
+        const token = 'mocked-jwt-token';
+        window.localStorage.setItem('token', token);
 
-        cy.intercept({
-            method: 'GET',
-            url: '/api/session'
-        }, (req) => {
-            expect(req.headers.authorization).to.equal('Bearer mocked-jwt-token');
-            req.reply([]);
+        cy.intercept('GET', '/api/session', (req) => {
+        expect(req.headers.authorization).to.equal(`Bearer ${token}`);
+        req.reply([]);
         }).as('getSessions');
 
-        cy.login();
+        cy.visit('/sessions'); // front déclenchera /api/session si token est présent
         cy.wait('@getSessions');
     });
 });
