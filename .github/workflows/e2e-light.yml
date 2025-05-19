@@ -31,14 +31,6 @@ jobs:
         run: |
           npm ci
 
-      - name: 🚀 Start Spring Boot API
-        run: |
-          nohup java -jar back/target/*.jar \
-            --spring.datasource.url=jdbc:mysql://localhost:3306/yoga \
-            --spring.datasource.username=root \
-            --spring.datasource.password=root &
-          sleep 10
-
       - name: 🚀 Serve Angular App (ng serve)
         working-directory: front
         run: |
