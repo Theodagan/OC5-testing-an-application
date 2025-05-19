@@ -1,3 +1,5 @@
+import '@cypress/code-coverage/support';
+
 Cypress.Commands.add('login', () => {
     cy.intercept('POST', '/api/auth/login', {
         statusCode: 200,
