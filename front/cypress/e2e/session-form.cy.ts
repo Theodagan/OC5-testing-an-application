@@ -12,8 +12,9 @@ describe('Session Form Page', () => {
         cy.get('input[formcontrolname="name"]').type('Session Cypress');
         cy.get('input[formcontrolname="date"]').type('2025-12-31');
     
-        cy.get('mat-select[formcontrolname="teacher_id"]').click();
-        cy.get('mat-select').select([0]);
+        cy.get('mat-select[formcontrolname="teacher_id"]').click().click().type('{enter}');
+        // cy.get('mat-select').select([0]);
+        cy.get('mat-option').first();
         
         cy.get('textarea[formcontrolname="description"]').type('Test via Cypress');
     
