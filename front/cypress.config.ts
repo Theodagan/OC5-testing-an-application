@@ -11,6 +11,9 @@ export default defineConfig({
   screenshotsFolder: 'cypress/screenshots',
   fixturesFolder: 'cypress/fixtures',
   video: true, // needed to record runs on Cypress Cloud
+  env: {
+    BACKEND_ENABLED: process.env['BACKEND_ENABLED'] === 'true'
+  },
   e2e: {
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.ts').default(on, config)

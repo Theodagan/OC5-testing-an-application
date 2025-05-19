@@ -33,6 +33,10 @@ describe('Session Form Page', () => {
       cy.get('button[type="submit"]').click();
   
       cy.url().should('include', '/sessions');
-    //   cy.contains('Session Cypress').should('exist');
+      if (Cypress.env('BACKEND_ENABLED')) {
+        cy.contains('Session Cypress').should('exist');
+      } else {
+        cy.log('Skipping DB-persisted check (mock mode)');
+      }
     });
   });
