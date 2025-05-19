@@ -10,7 +10,7 @@ describe('JWT Interceptor', () => {
             req.reply([]);
         }).as('getSessions');
 
-        cy.visit('/sessions');
+        cy.login();
         cy.wait('@getSessions');
     });
 });
