@@ -18,6 +18,7 @@ describe('Session Form Page', () => {
             const teacher = teachers[0];
             
             cy.get('mat-select[formControlName="teacher_id"]').click();
+            cy.wait(1000):
             cy.get('mat-option').contains(`${teacher.firstName} ${teacher.lastName}`).click();
         });
         
