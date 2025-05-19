@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "firstName": "test",
+  "lastName": "test",
+  "email": "test@yoga.com",
+  "admin": false,
+  "createdAt": "2025-05-17T12:00:00.000Z",
+  "updatedAt": "2025-05-17T12:00:00.000Z",
+  "token": "fake-token"
+}
+
+  

@@ -1,33 +1,32 @@
 describe('Session Creation Flow', () => {
 
   it('should show list of session', () => {
-    cy.intercept('GET', '/api/session', {
-      statusCode: 200,
-      body: [
-        { id: 1, name: 'Yoga 101', date: '2024-01-01' }
-      ]
-    }).as('getSessions');
+    cy.fixture('sessions.json').then((sessions) => {
+      cy.intercept('GET', '/api/session', {
+        statusCode: 200,
+        body: sessions
+      }).as('getSessions');
 
-    cy.login();
+      cy.login();
 
-    cy.wait('@getSessions');
-    // Clique sur le bouton de navigation
-    cy.contains('Rentals available').should('exist');
-    cy.get('[data-testid="session-item"]').should('exist')
+      cy.wait('@getSessions');
+      cy.contains('Rentals available').should('exist');
+      cy.contains(sessions[0].name).should('exist');
+    });
   });
-
+  
   it('shows sessions and admin actions', () => {
-    cy.intercept('GET', '/api/session', {
-      statusCode: 200,
-      body: [
-        { id: 1, name: 'Yoga 101', date: '2024-01-01' }
-      ]
-    }).as('getSessions');
+    cy.fixture('sessions.json').then((sessions) => {
+      cy.intercept('GET', '/api/session', {
+        statusCode: 200,
+        body: sessions
+      }).as('getSessions');
 
-    cy.loginAsAdmin();
+      cy.loginAsAdmin();
 
-    cy.wait('@getSessions');
-    cy.contains('Yoga 101').should('exist');
-    cy.contains('Create').should('exist');
+      cy.wait('@getSessions');
+      cy.contains(sessions[0].name).should('exist');
+      cy.contains('Create').should('exist');
+    });
   });
 });

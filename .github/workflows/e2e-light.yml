@@ -18,13 +18,13 @@ jobs:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: 📦 Cache Angular node_modules
+      - name: 📦 Cache npm
         uses: actions/cache@v3
         with:
-          path: front/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('front/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-npm-
 
       - name: 📦 Install Angular
         working-directory: front
