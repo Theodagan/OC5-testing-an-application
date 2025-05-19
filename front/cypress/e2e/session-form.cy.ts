@@ -2,12 +2,14 @@
 describe('Session Form Page', () => {
     beforeEach(() => {
         cy.fixture('teachers.json').then((teachers) => {
-            cy.intercept('GET', '/api/teacher', { body: teachers }).as('getTeachers');
-            cy.loginAsAdmin();
-            cy.wait('@getTeachers');
-            cy.get('[data-testid="session-create-button"]').click();
+          cy.intercept('GET', '**/api/teacher**', { body: teachers }).as('getTeachers');
         });
-    });
+      
+        cy.loginAsAdmin();
+        cy.get('[data-testid="session-create-button"]').click();
+        cy.wait('@getTeachers'); 
+        
+      });
   
     it('should fill and submit the form', () => {
       cy.get('[data-testid="session-form"]').should('be.visible');
