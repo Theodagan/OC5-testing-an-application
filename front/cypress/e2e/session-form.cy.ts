@@ -3,7 +3,7 @@ describe('Session Form Page', () => {
     beforeEach(() => {
         cy.intercept('GET', '/api/teacher', { fixture: 'teachers.json' }).as('getTeachers');
         cy.loginAsAdmin();
-        y.wait('@getTeachers');
+        cy.wait('@getTeachers');
         // Clique sur le bouton de navigation    
         cy.get('[data-testid="session-create-button"]').click();
     });
