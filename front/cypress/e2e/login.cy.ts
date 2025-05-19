@@ -4,7 +4,7 @@ describe('Login spec (extended)', () => {
   });
 
   it('Login successfull', () => {
-    cy.fixture('users.json').then((user) => {
+    cy.fixture('user.json').then((user) => {
       cy.intercept('POST', '/api/auth/login', {
         statusCode: 200,
         body: user
