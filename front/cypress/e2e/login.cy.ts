@@ -9,7 +9,7 @@ describe('Login spec (extended)', () => {
     cy.get('input[formControlName=email]').type('test@user.com');
     cy.get('button[type=submit]').should('be.disabled')
 
-    cy.get('input[formControlName=email]').type('');
+    cy.get('input[formControlName=email]').clear();
     cy.get('input[formControlName=password]').type('wrongpass');
     cy.get('button[type=submit]').should('be.disabled')
 

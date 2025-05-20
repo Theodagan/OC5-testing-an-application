@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('JWT Interceptor', () => {
     it('injects token from localStorage into headers', () => {
         cy.intercept('POST', '/api/auth/login', {
