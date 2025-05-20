@@ -34,8 +34,7 @@ jobs:
 
       - name: 🔧 Build Angular App with source maps
         working-directory: front
-        run: |
-          npm run build -- --source-map
+        run: npx ng build --source-map
 
       - name: 🚀 Serve built app (with fallback)
         working-directory: front
