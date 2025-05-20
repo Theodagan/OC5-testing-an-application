@@ -3,12 +3,16 @@ describe('Login spec (extended)', () => {
     cy.visit('/login');
   });
 
-  it('should show validation errors on empty submit', () => {
-    cy.get('button[type=submit]').click();
+  it('should disable submit button on empty submit', () => {
+    cy.get('button[type=submit]').should('be.disabled')
 
-    cy.get('input[formControlName=email]:invalid').should('exist');
-    cy.get('input[formControlName=password]:invalid').should('exist');
-    cy.url().should('include', '/login'); // pas de redirection
+    cy.get('input[formControlName=email]').type('test@user.com');
+    cy.get('button[type=submit]').should('be.disabled')
+
+    cy.get('input[formControlName=email]').type('');
+    cy.get('input[formControlName=password]').type('wrongpass');
+    cy.get('button[type=submit]').should('be.disabled')
+
   });
 
   it('should show error on invalid credentials', () => {

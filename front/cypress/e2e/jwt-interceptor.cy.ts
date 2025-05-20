@@ -29,12 +29,13 @@ describe('JWT Interceptor', () => {
     it('does NOT inject token if not logged in', () => {
       // Aucune session posée
   
-      cy.intercept('GET', '/api/session', (req) => {
+      cy.intercept('GET', '/session', (req) => {
         expect(req.headers).to.not.have.property('authorization');
         req.reply([]);
       }).as('getSessionsNoAuth');
   
-      cy.visit('/sessions'); // doit déclencher l’appel sans header auth
+      cy.visit('/sessions'); 
       cy.wait('@getSessionsNoAuth');
+      cy.url().should('include', '/login');
     });
 });
