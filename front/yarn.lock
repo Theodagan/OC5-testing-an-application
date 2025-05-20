@@ -1356,11 +1356,6 @@
     "@schuchard/schematics-core" "^0.4.0"
     rxjs "6.5.5"
 
-"@colors/colors@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
-  integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
-
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.npmjs.org/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz"
@@ -3553,14 +3548,14 @@ cli-spinners@^2.4.0, cli-spinners@^2.5.0, cli-spinners@2.6.1:
   resolved "https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.6.1.tgz"
   integrity sha512-x/5fWmGMnbKQAaNwN+UZlV79qBLM9JFnJuJ03gIi5whrob0xV0ofNVHy9DhwGdsMJQc2OKv0oGmLzvaqvAVv+g==
 
-cli-table3@~0.6.5:
-  version "0.6.5"
-  resolved "https://registry.npmjs.org/cli-table3/-/cli-table3-0.6.5.tgz"
-  integrity sha512-+W/5efTR7y5HRD7gACw9yQjqMVvEMLBHmboM/kPWam+H+Hmyrgjh6YncVKK122YZkXrLudzTuAukUw9FnMf7IQ==
+cli-table3@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npmjs.org/cli-table3/-/cli-table3-0.6.1.tgz"
+  integrity sha512-w0q/enDHhPLq44ovMGdQeeDLvwxwavsJX7oQGYt/LrBlYsyaxyDnp6z3QzFut/6kLLKnlcUVJLrpB7KBfgG/RA==
   dependencies:
     string-width "^4.2.0"
   optionalDependencies:
-    "@colors/colors" "1.5.0"
+    colors "1.4.0"
 
 cli-truncate@^2.1.0:
   version "2.1.0"
@@ -3655,6 +3650,11 @@ colorette@^2.0.10, colorette@^2.0.16:
   version "2.0.19"
   resolved "https://registry.npmjs.org/colorette/-/colorette-2.0.19.tgz"
   integrity sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==
+
+colors@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/colors/-/colors-1.4.0.tgz"
+  integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
 
 combined-stream@^1.0.8, combined-stream@~1.0.6:
   version "1.0.8"
@@ -3892,10 +3892,10 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-cypress@*, cypress@^14.3.2:
-  version "14.3.2"
-  resolved "https://registry.npmjs.org/cypress/-/cypress-14.3.2.tgz"
-  integrity sha512-n+yGD2ZFFKgy7I3YtVpZ7BcFYrrDMcKj713eOZdtxPttpBjCyw/R8dLlFSsJPouneGN7A/HOSRyPJ5+3/gKDoA==
+cypress@*, cypress@^14.3.3:
+  version "14.3.3"
+  resolved "https://registry.npmjs.org/cypress/-/cypress-14.3.3.tgz"
+  integrity sha512-1Rz7zc9iqLww6BysaESqUhtIuaFHS7nL3wREovAKYsNhLTfX3TbcBWHWgEz70YimH2NkSOsm4oIcJJ9HYHOlew==
   dependencies:
     "@cypress/request" "^3.0.8"
     "@cypress/xvfb" "^1.2.4"
@@ -3910,7 +3910,7 @@ cypress@*, cypress@^14.3.2:
     check-more-types "^2.24.0"
     ci-info "^4.1.0"
     cli-cursor "^3.1.0"
-    cli-table3 "~0.6.5"
+    cli-table3 "0.6.1"
     commander "^6.2.1"
     common-tags "^1.8.0"
     dayjs "^1.10.4"
