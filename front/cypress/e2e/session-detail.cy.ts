@@ -53,8 +53,19 @@ describe('Session Detail Page', () => {
             expect(text.toLowerCase()).to.include(attendeesCount.toLowerCase());
         });
         
-        cy.contains(`${teacher.firstName} ${teacher.lastName}`).should('exist');
-        cy.contains(session.description).should('exist');
+        cy.get('[data-testid="teacher-name"]')
+        .invoke('text')
+        .then((text) => {
+            const teacherName = `${teacher.firstName} ${teacher.lastName}`;
+            expect(text.toLowerCase()).to.eq(teacherName.toLowerCase());
+        });
+
+        cy.get('[data-testid="description"]')
+        .invoke('text')
+        .then((text) => {
+            expect(text.trim().toLowerCase()).to.eq(session.description.toLowerCase());
+
+        });
     });
   
     it('shows correct participate button based on user status', () => {

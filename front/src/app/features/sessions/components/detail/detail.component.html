@@ -34,7 +34,7 @@
         <mat-icon>
           people
         </mat-icon>
-        <span class="ml1">{{ teacher.firstName }} {{ teacher.lastName | uppercase }}</span>
+        <span class="ml1" data-testid="teacher-name">{{ teacher.firstName }} {{ teacher.lastName | uppercase }}</span>
       </div>
     </mat-card-subtitle>
     <div mat-card-image fxLayoutAlign="center center">
@@ -56,7 +56,7 @@
         </div>
       </div>
       <div class="description">
-        <p>Description:</p>
+        <p data-testid="description">Description:</p>
         {{ session.description }}
         <br>
       </div>
