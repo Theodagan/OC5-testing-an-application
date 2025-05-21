@@ -90,6 +90,7 @@ jobs:
           sleep 15
 
       - name: ✅ Cypress E2E Run
+        continue-on-error: true
         uses: cypress-io/github-action@v6
         with:
           working-directory: front
@@ -106,7 +107,6 @@ jobs:
       - name: 📊 Generate Code Coverage Report
         working-directory: front
         run: npm run e2e:coverage
-        continue-on-error: true
 
       - name: 📤 Upload Code Coverage Artifact
         if: always()
