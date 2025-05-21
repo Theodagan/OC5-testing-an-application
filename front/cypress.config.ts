@@ -11,7 +11,10 @@ export default defineConfig({
   fixturesFolder: 'cypress/fixtures',
   video: true, // needed to record runs on Cypress Cloud
   env: {
-    BACKEND_ENABLED: process.env['BACKEND_ENABLED'] === 'true'
+    BACKEND_ENABLED: process.env['BACKEND_ENABLED'] === 'true',
+    codeCoverage: {
+      exclude: ['src/main.ts', 'src/environments/*.ts']
+    }
   },
   e2e: {
     setupNodeEvents(on, config) {
