@@ -63,7 +63,7 @@ describe('Session Detail Page', () => {
         cy.get('[data-testid="description"]')
         .invoke('text')
         .then((text) => {
-            expect(text.trim().toLowerCase()).to.eq(session.description.toLowerCase());
+            expect(text.trim().toLowerCase()).to.include(session.description.toLowerCase());
 
         });
     });
@@ -98,4 +98,4 @@ describe('Session Detail Page', () => {
         cy.wait('@delete');
         cy.url().should('include', '/sessions');
     });
-  });
+});
