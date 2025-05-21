@@ -3,7 +3,7 @@ describe('Session Detail Page', () => {
     let teacher: any;
     let userId = 1;
   
-    beforeEach(() => {
+    beforeEach(function () {
         cy.fixture('sessions.json').then((sessions) => {
             session = sessions[0];
             cy.intercept('GET', '/api/session', { body: sessions }).as('getSessions');
@@ -17,7 +17,6 @@ describe('Session Detail Page', () => {
 
         if (this.currentTest?.title.toLowerCase().includes('admin')) {
             cy.loginAsAdmin();
-            return;
         }
         else{
             cy.login(); 
