@@ -20,21 +20,21 @@ describe('Session Detail Page — Dynamic & Accurate', () => {
     });
   
     it('navigates to detail view via "Detail" button and displays session info', () => {
-      cy.get('[data-testid="session-item"]')
-        .contains(session.name)
-        .parents('mat-card.item')
-        .within(() => {
-          cy.contains('Detail').click();
-        });
-  
-      cy.wait('@getSession');
-      cy.wait('@getTeacher');
-  
-      cy.get('h1').should('contain.text', session.name);
-      cy.contains(`${teacher.firstName} ${teacher.lastName}`).should('exist');
-      cy.contains('attendees').should('contain.text', session.users.length.toString());
-      cy.contains(session.description).should('exist');
-    });
+        cy.get('[data-testid="session-item"]')
+          .contains(session.name)
+          .parents('mat-card.item')
+          .within(() => {
+            cy.contains('Detail').click();
+          });
+      
+        cy.wait('@getSession');
+        cy.wait('@getTeacher');
+      
+        cy.get('h1').should('contain.text', session.name);
+        cy.contains(`${teacher.firstName} ${teacher.lastName}`).should('exist');
+        cy.contains('attendees').should('contain.text', session.users.length.toString());
+        cy.contains(session.description).should('exist');
+      });
   
     it('shows correct participate button based on user status', () => {
       cy.get('[data-testid="session-item"]')
