@@ -51,6 +51,6 @@ describe('Me Page', () => {
     cy.contains('Your account has been deleted !').should('exist');
 
     // Vérifie redirection vers l'accueil
-    cy.url().should('eq', Cypress.config().baseUrl + '/');
+    cy.url().should('eq', Cypress.config().baseUrl);
   });
 });
