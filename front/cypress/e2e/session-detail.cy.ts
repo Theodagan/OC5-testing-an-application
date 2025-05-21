@@ -94,7 +94,7 @@ describe('Session Detail Page', () => {
         cy.wait('@getSession');
 
         cy.intercept('DELETE', `/api/session/${session.id}`, {}).as('delete');
-        cy.get('[data-testid="teacher-name"]').click();
+        cy.get('[data-testid="delete-button"]').click();
         cy.wait('@delete');
         cy.url().should('include', '/sessions');
     });
