@@ -46,31 +46,7 @@ describe('Session Form Page', () => {
   });
 
   it('should load session data and update it', () => {
-    cy.intercept('GET', '/api/session/42', {
-      id: 42,
-      name: 'Initial Name',
-      description: 'Initial desc',
-      date: '2025-06-01',
-      teacher_id: 101
-    }).as('getSession');
-  
-    cy.intercept('PUT', '/api/session/42', {}).as('updateSession');
-  
-    cy.get('[data-testid="session-form"]').click();
-
-    cy.visit('/sessions/update/42');
-    cy.wait('@getSession');
-  
-    cy.get('input[formControlName=name]').clear().type('Updated Name');
-    cy.get('textarea[formControlName=description]').clear().type('Updated description');
-  
-    cy.get('button[type=submit]').click();
-    cy.wait('@updateSession');
-  });
-
-
-  it('should update a session through the UI', () => {
-    // 1. Interception des sessions listées dans /sessions
+    // Interception des sessions listées dans /sessions
     cy.intercept('GET', '/api/session', {
       body: [
         {
@@ -84,7 +60,7 @@ describe('Session Form Page', () => {
       ]
     }).as('getSessions');
   
-    // 2. Interception des données session pour le formulaire d’update
+    // Interception des données session pour le formulaire d’update
     cy.intercept('GET', '/api/session/42', {
       id: 42,
       name: 'Session à modifier',
@@ -93,15 +69,15 @@ describe('Session Form Page', () => {
       teacher_id: 101
     }).as('getSession');
   
-    // 3. Interception du PUT de mise à jour
+    // Interception du PUT de mise à jour
     cy.intercept('PUT', '/api/session/42', {}).as('updateSession');
   
-    // 4. Cliquer sur "Sessions" dans la navbar (revenir à la liste)
+    // Cliquer sur "Sessions" dans la navbar (revenir à la liste)
     cy.get('[data-testid="nav-sessions"]').click();
   
     cy.wait('@getSessions');
   
-    // 5. Cliquer sur "Edit" sur la session mockée
+    // Cliquer sur "Edit" sur la session mockée
     cy.contains('mat-card.item', 'Session à modifier')
       .within(() => {
         cy.contains('Edit').click();
@@ -109,17 +85,24 @@ describe('Session Form Page', () => {
     ;
   
     cy.wait('@getSession');
+
+    // Les données initiales devraient apparaitre
+    cy.get('input[formControlName=name]').should('have.value', 'Session à modifier');
+
+    cy.get('textarea[formControlName=description]').should('have.value', 'Description initiale');
+
+    cy.get('input[formControlName=date]').should('have.value', '2025-06-01');
   
-    // 6. Modifier le formulaire
+    // Modifier le formulaire
     cy.get('input[formControlName=name]').clear().type('Session modifiée');
     cy.get('textarea[formControlName=description]').clear().type('Nouvelle description');
     cy.get('input[formControlName=date]').clear().type('2025-07-01');
   
-    // 7. Soumettre
+    // Soumettre
     cy.get('button[type=submit]').click();
     cy.wait('@updateSession');
 
-    //8. Assertions finales
+    // Assertions finales
     cy.get('[data-testid="session-item"]')
     .children('mat-card.item')
     .each(($card) => {
