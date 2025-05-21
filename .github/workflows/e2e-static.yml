@@ -30,16 +30,16 @@ jobs:
         working-directory: front
         run: |
           npm ci
-          npm install --save-dev serve @cypress/code-coverage istanbul-lib-coverage istanbul-lib-instrument
+          npm install --save-dev http-server @cypress/code-coverage istanbul-lib-coverage istanbul-lib-instrument
 
       - name: 🔧 Build Angular App with source maps
         working-directory: front
         run: npx ng build --source-map
 
-      - name: 🚀 Serve built app (with fallback)
+      - name: 🚀 Serve built app with SPA fallback
         working-directory: front
         run: |
-          npx serve -s dist -l 4200 &
+          npx http-server dist/front -p 4200 -c-1 --spa &
           sleep 10
 
       - name: ✅ Run Cypress E2E Tests
@@ -47,6 +47,7 @@ jobs:
         with:
           working-directory: front
           wait-on: 'http://localhost:4200'
+          wait-on-timeout: 120
           browser: chrome
           headless: true
           record: ${{ github.event.inputs.use-cloud == 'true' }}
