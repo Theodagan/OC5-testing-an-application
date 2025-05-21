@@ -15,19 +15,28 @@ describe('Session Detail Page — Dynamic & Accurate', () => {
             cy.intercept('GET', `/api/teacher/${teacher.id}`, teacher).as('getTeacher');
         });
 
-        cy.login(); 
+        if (this.currentTest?.title.toLowerCase().includes('admin')) {
+            cy.loginAsAdmin();
+            return;
+        }
+        else{
+            cy.login(); 
+        }
         cy.wait('@getSessions');
+
+        cy.get('[data-testid="session-item"]')
+        .children('mat-card.item')
+        .each(($card) => {
+            if ($card.find('mat-card-title').text().trim().toLowerCase() === session.name.toLowerCase()) {
+            cy.wrap($card).within(() => {
+                cy.contains('Detail').click();
+            });
+            return false; // stop .each() early
+            }
+        });
     });
   
     it('navigates to detail view via "Detail" button and displays session info', () => {
-        cy.get('[data-testid="session-item"]')
-            .should('contain.text', session.name)
-            .parents('mat-card.item')
-            .within(() => {
-                cy.contains('Detail').click();
-            })
-        ;   
-      
         cy.wait('@getSession');
         cy.wait('@getTeacher');
       
@@ -38,29 +47,13 @@ describe('Session Detail Page — Dynamic & Accurate', () => {
     });
   
     it('shows correct participate button based on user status', () => {
-        cy.get('[data-testid="session-item"]')
-            .contains(session.name)
-            .parents('mat-card.item')
-            .within(() => {
-                cy.contains('Detail').click();
-            })
-        ;
-
         cy.wait('@getSession');
 
         const isParticipant = session.users.includes(userId);
         cy.get('button').contains(isParticipant ? 'Do not participate' : 'Participate').should('exist');
     });
   
-    it('allows toggling participation', () => {
-        cy.get('[data-testid="session-item"]')
-            .contains(session.name)
-            .parents('mat-card.item')
-            .within(() => {
-                cy.contains('Detail').click();
-            })
-        ;
-  
+    it('allows toggling participation', () => {  
         cy.wait('@getSession');
 
         if (session.users.includes(userId)) {
@@ -75,16 +68,6 @@ describe('Session Detail Page — Dynamic & Accurate', () => {
     });
   
     it('admin can delete the session', () => {
-        cy.loginAsAdmin();
-        cy.wait('@getSessions');
-
-        cy.get('[data-testid="session-item"]')
-            .contains(session.name)
-            .parents('mat-card.item')
-            .within(() => {
-                cy.contains('Detail').click();
-            })
-        ;
 
         cy.wait('@getSession');
 
