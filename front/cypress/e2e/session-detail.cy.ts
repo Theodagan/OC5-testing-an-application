@@ -40,9 +40,20 @@ describe('Session Detail Page', () => {
         cy.wait('@getSession');
         cy.wait('@getTeacher');
       
-        cy.get('h1').should('contain.text', session.name);
+        cy.get('h1')
+        .invoke('text')
+        .then((text) => {
+            expect(text.trim().toLowerCase()).to.eq(session.name.toLowerCase());
+        });
+
+        cy.contains('attendees')
+        .invoke('text')
+        .then((text) => {
+            const attendeesCount = session.users.length.toString();
+            expect(text.toLowerCase()).to.include(attendeesCount.toLowerCase());
+        });
+        
         cy.contains(`${teacher.firstName} ${teacher.lastName}`).should('exist');
-        cy.contains('attendees').should('contain.text', session.users.length.toString());
         cy.contains(session.description).should('exist');
     });
   
