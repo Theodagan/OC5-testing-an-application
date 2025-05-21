@@ -1,0 +1,56 @@
+name: E2E Tests coverage (Angular --- e2e-ci target)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: 📦 Install dependencies
+        working-directory: front
+        run: npm ci
+
+      - name: ✅ Run Angular + Cypress (e2e-ci)
+        working-directory: front
+        run: npx ng run yoga:e2e-ci
+
+      - name: 📊 Generate Code Coverage Report
+        working-directory: front
+        run: |
+          npx nyc report --reporter=lcov --reporter=text-summary --report-dir=coverage
+        continue-on-error: true
+
+      - name: 📤 Upload Code Coverage Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-coverage
+          path: front/coverage/
+
+      - name: 🔒 Enforce minimum coverage threshold
+        working-directory: front
+        run: |
+          npx nyc check-coverage --lines 80 --functions 80 --branches 70 --statements 80
+
+      - name: 📝 Add Cypress + Coverage Summary
+        working-directory: front
+        run: |
+          echo "## ✅ Résumé du job E2E avec e2e-ci" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          npx nyc report --reporter=text-summary >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY

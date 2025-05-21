@@ -1,4 +1,4 @@
-name: E2E Tests Light (Angular only)
+name: E2E Tests Light (Angular)
 
 on:
   workflow_dispatch:

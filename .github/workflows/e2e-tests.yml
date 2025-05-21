@@ -1,4 +1,4 @@
-name: E2E Tests (Angular + Spring + Cypress)
+name: -FullStack- E2E Tests (Angular + Spring + Cypress)
 
 on:
   workflow_dispatch:
