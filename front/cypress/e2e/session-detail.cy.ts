@@ -1,4 +1,4 @@
-describe('Session Detail Page — Dynamic & Accurate', () => {
+describe('Session Detail Page', () => {
     let session: any;
     let teacher: any;
     let userId = 1;
