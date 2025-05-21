@@ -97,7 +97,7 @@ describe('Session Form Page', () => {
     cy.intercept('PUT', '/api/session/42', {}).as('updateSession');
   
     // 4. Cliquer sur "Sessions" dans la navbar (revenir à la liste)
-    cy.get('data-testid="nav-sessions"').click();
+    cy.get('[data-testid="nav-sessions"]').click();
   
     cy.wait('@getSessions');
   
