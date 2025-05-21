@@ -39,7 +39,7 @@ jobs:
       - name: 🚀 Serve built app (with fallback)
         working-directory: front
         run: |
-          npx serve -s dist/front -l 4200 &
+          npx serve -s dist -l 4200 &
           sleep 10
 
       - name: ✅ Run Cypress E2E Tests
