@@ -26,17 +26,17 @@ Ensure the following tools are installed:
 ### 2. Clone the project
 
 ```bash
-git clone <repo_url>
-cd project/
+git clone https://github.com/Theodagan/OC5-testing-an-application.git
+cd OC5-testing-an-application/
 ```
 
 ### 3. Initialize the database
 
-- Create a MySQL database named `yoga` (or update the name in `back/src/main/resources/application.properties`)
+- Create a MySQL database named `test` (or update the name in `back/src/main/resources/application.properties`)
 - Run the initialization script:
 
 ```bash
-mysql -u root -p yoga < ressources/sql/script.sql
+mysql -u user -p test < ressources/sql/script.sql
 ```
 
 ### 4. Start the backend
@@ -64,9 +64,18 @@ The frontend will be available at `http://localhost:4200`.
 
 ## 🚀 Run the project with Firebase Studio (IDX)
 
-This project can be launched in the cloud via Firebase Studio using a custom template, providing a fully configured dev environment.
+### 🔗 Direct link to the project
 
-### 🔗 Direct link to the template
+If you have been granted access by the project owner, you can open the project directly in Firebase Studio using the link below:
+
+👉 [Open in Firebase Studio](https://studio.firebase.google.com/test59-61507171)
+
+> ⚠️ **Note**: You must be **explicitly granted access** to the Firebase Studio workspace by the project owner via a working gmail email address.  
+> Without proper permissions, the link will **not work**.
+
+### 🔗 Link to the template
+
+This project can be launched in the cloud via Firebase Studio using a custom template, providing a fully configured dev environment.
 
 Click the link below to start a new Firebase Studio workspace using the custom template:
 
