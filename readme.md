@@ -68,7 +68,7 @@ The frontend will be available at `http://localhost:4200`.
 
 If you have been granted access by the project owner, you can open the project directly in Firebase Studio using the link below:
 
-👉 [Open in Firebase Studio](https://studio.firebase.google.com/test59-61507171)
+[![Open Project in Firebase Studio](https://img.shields.io/badge/Open%20Project-Firebase%20Studio-orange?logo=firebase)](https://studio.firebase.google.com/test59-61507171)
 
 > ⚠️ **Note**: You must be **explicitly granted access** to the Firebase Studio workspace by the project owner via a working gmail email address.  
 > Without proper permissions, the link will **not work**.
@@ -79,7 +79,8 @@ This project can be launched in the cloud via Firebase Studio using a custom tem
 
 Click the link below to start a new Firebase Studio workspace using the custom template:
 
-➡️ https://studio.firebase.google.com/new?template=https%3A%2F%2Fgithub.com%2FTheodagan%2Fspring-angular-idx-template
+[![Use Firebase Studio Template](https://img.shields.io/badge/Launch%20via%20Template-Firebase%20Studio-yellow?logo=firebase)](https://studio.firebase.google.com/new?template=https%3A%2F%2Fgithub.com%2FTheodagan%2Fspring-angular-idx-template)
+
 
 ### 📝 Detailed steps
 
