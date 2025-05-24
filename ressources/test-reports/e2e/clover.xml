@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1747843908504" clover="3.2.0">
+  <project timestamp="1747843908504" name="All files">
+    <metrics statements="501" coveredstatements="374" conditionals="110" coveredconditionals="84" methods="165" coveredmethods="119" elements="776" coveredelements="577" complexity="0" loc="501" ncloc="501" packages="27" files="52" classes="52"/>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src">
+      <metrics statements="4" coveredstatements="2" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="0"/>
+      <file name="main.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/main.ts">
+        <metrics statements="4" coveredstatements="2" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="0"/>
+        <line num="7" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app">
+      <metrics statements="27" coveredstatements="21" conditionals="6" coveredconditionals="6" methods="11" coveredmethods="7"/>
+      <file name="app-routing.module.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/app-routing.module.ts">
+        <metrics statements="4" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="3"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="32" count="8" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="app.component.html" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/app.component.html">
+        <metrics statements="14" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="48" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+      </file>
+      <file name="app.component.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/app.component.ts">
+        <metrics statements="7" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="3"/>
+        <line num="13" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="21" count="24" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+      </file>
+      <file name="app.module.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/app.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="45" count="8" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.components.me">
+      <metrics statements="30" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="1"/>
+      <file name="me.component.html" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/components/me/me.component.html">
+        <metrics statements="18" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+      </file>
+      <file name="me.component.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/components/me/me.component.ts">
+        <metrics statements="12" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="1"/>
+        <line num="13" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.components.not-found">
+      <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="not-found.component.html" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/components/not-found/not-found.component.html">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+      </file>
+      <file name="not-found.component.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/components/not-found/not-found.component.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="8" count="8" type="cond" truecount="0" falsecount="2"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.features.auth">
+      <metrics statements="4" coveredstatements="4" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+      <file name="auth-routing.module.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/auth-routing.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="16" count="8" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="auth.module.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/auth.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="36" count="8" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.features.auth.components.login">
+      <metrics statements="26" coveredstatements="1" conditionals="6" coveredconditionals="0" methods="7" coveredmethods="1"/>
+      <file name="login.component.html" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/components/login/login.component.html">
+        <metrics statements="13" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+      </file>
+      <file name="login.component.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/components/login/login.component.ts">
+        <metrics statements="13" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="1"/>
+        <line num="14" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.features.auth.components.register">
+      <metrics statements="28" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="1"/>
+      <file name="register.component.html" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/components/register/register.component.html">
+        <metrics statements="18" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+      </file>
+      <file name="register.component.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/components/register/register.component.ts">
+        <metrics statements="10" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="1"/>
+        <line num="15" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.features.auth.services">
+      <metrics statements="5" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="2"/>
+      <file name="auth.service.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/features/auth/services/auth.service.ts">
+        <metrics statements="5" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="2"/>
+        <line num="12" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.guards">
+      <metrics statements="14" coveredstatements="6" conditionals="8" coveredconditionals="3" methods="6" coveredmethods="4"/>
+      <file name="auth.guard.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/guards/auth.guard.ts">
+        <metrics statements="7" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="6" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+      </file>
+      <file name="unauth.guard.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/guards/unauth.guard.ts">
+        <metrics statements="7" coveredstatements="5" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="3"/>
+        <line num="6" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="15" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.interceptors">
+      <metrics statements="5" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <file name="jwt.interceptor.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/interceptors/jwt.interceptor.ts">
+        <metrics statements="5" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="6" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.app.services">
+      <metrics statements="16" coveredstatements="5" conditionals="4" coveredconditionals="2" methods="10" coveredmethods="4"/>
+      <file name="session.service.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/services/session.service.ts">
+        <metrics statements="11" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="3"/>
+        <line num="8" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="16" count="24" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+      </file>
+      <file name="user.service.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/app/services/user.service.ts">
+        <metrics statements="5" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="1"/>
+        <line num="9" count="8" type="cond" truecount="0" falsecount="2"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="Users.joffreyhernandez.Repository.OC.parcours-Angular_Java.P5-Full-Stack-testing.front.src.environments">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="environment.ts" path="/Users/joffreyhernandez/Repository/OC/parcours-Angular_Java/P5-Full-Stack-testing/front/src/environments/environment.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app">
+      <metrics statements="27" coveredstatements="25" conditionals="6" coveredconditionals="6" methods="11" coveredmethods="9"/>
+      <file name="app-routing.module.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/app-routing.module.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+        <line num="8" count="24" type="stmt"/>
+        <line num="12" count="24" type="stmt"/>
+        <line num="17" count="15" type="stmt"/>
+        <line num="32" count="48" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="app.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/app.component.html">
+        <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="24" type="stmt"/>
+        <line num="3" count="24" type="stmt"/>
+        <line num="4" count="2180" type="stmt"/>
+        <line num="5" count="14" type="stmt"/>
+        <line num="6" count="14" type="stmt"/>
+        <line num="7" count="14" type="stmt"/>
+        <line num="9" count="24" type="stmt"/>
+        <line num="10" count="25" type="stmt"/>
+        <line num="11" count="25" type="stmt"/>
+        <line num="12" count="25" type="stmt"/>
+        <line num="15" count="24" type="stmt"/>
+        <line num="16" count="24" type="stmt"/>
+        <line num="17" count="24" type="stmt"/>
+        <line num="18" count="24" type="stmt"/>
+      </file>
+      <file name="app.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/app.component.ts">
+        <metrics statements="7" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="3"/>
+        <line num="13" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="24" type="stmt"/>
+        <line num="16" count="24" type="stmt"/>
+        <line num="17" count="24" type="stmt"/>
+        <line num="21" count="1090" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+      </file>
+      <file name="app.module.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/app.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="18" count="24" type="stmt"/>
+        <line num="45" count="48" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.components.me">
+      <metrics statements="30" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="9"/>
+      <file name="me.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/components/me/me.component.html">
+        <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="12" count="22" type="stmt"/>
+        <line num="13" count="19" type="stmt"/>
+        <line num="14" count="19" type="stmt"/>
+        <line num="15" count="16" type="stmt"/>
+        <line num="16" count="16" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="25" count="19" type="stmt"/>
+        <line num="26" count="19" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+      </file>
+      <file name="me.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/components/me/me.component.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
+        <line num="13" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.components.not-found">
+      <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <file name="not-found.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/components/not-found/not-found.component.html">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+      </file>
+      <file name="not-found.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/components/not-found/not-found.component.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="8" count="48" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.auth">
+      <metrics statements="4" coveredstatements="4" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+      <file name="auth-routing.module.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/auth-routing.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="7" count="24" type="stmt"/>
+        <line num="16" count="48" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="auth.module.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/auth.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="14" count="24" type="stmt"/>
+        <line num="36" count="48" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.auth.components.login">
+      <metrics statements="26" coveredstatements="26" conditionals="6" coveredconditionals="6" methods="7" coveredmethods="7"/>
+      <file name="login.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/components/login/login.component.html">
+        <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <line num="1" count="19" type="stmt"/>
+        <line num="4" count="19" type="stmt"/>
+        <line num="6" count="1160" type="stmt"/>
+        <line num="7" count="19" type="stmt"/>
+        <line num="9" count="19" type="stmt"/>
+        <line num="10" count="19" type="stmt"/>
+        <line num="11" count="19" type="stmt"/>
+        <line num="12" count="1160" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="1160" type="stmt"/>
+        <line num="16" count="1179" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="1160" type="stmt"/>
+        <line num="21" count="1160" type="stmt"/>
+        <line num="22" count="19" type="stmt"/>
+      </file>
+      <file name="login.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/components/login/login.component.ts">
+        <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+        <line num="14" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="19" type="stmt"/>
+        <line num="16" count="19" type="stmt"/>
+        <line num="18" count="19" type="stmt"/>
+        <line num="35" count="19" type="stmt"/>
+        <line num="36" count="19" type="stmt"/>
+        <line num="37" count="19" type="stmt"/>
+        <line num="38" count="19" type="stmt"/>
+        <line num="42" count="15" type="stmt"/>
+        <line num="43" count="15" type="stmt"/>
+        <line num="45" count="14" type="stmt"/>
+        <line num="46" count="14" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.auth.components.register">
+      <metrics statements="28" coveredstatements="28" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="6"/>
+      <file name="register.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/components/register/register.component.html">
+        <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="6" count="318" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="21" count="318" type="stmt"/>
+        <line num="22" count="318" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+      </file>
+      <file name="register.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/components/register/register.component.ts">
+        <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+        <line num="12" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.auth.services">
+      <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+      <file name="auth.service.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/auth/services/auth.service.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="11" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="24" type="stmt"/>
+        <line num="15" count="24" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="22" count="15" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.sessions">
+      <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+      <file name="sessions-routing.module.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/sessions-routing.module.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="7" count="15" type="stmt"/>
+        <line num="18" count="30" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="sessions.module.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/sessions.module.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="17" count="15" type="stmt"/>
+        <line num="19" count="15" type="stmt"/>
+        <line num="43" count="30" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.sessions.components.detail">
+      <metrics statements="68" coveredstatements="64" conditionals="2" coveredconditionals="2" methods="18" coveredmethods="12"/>
+      <file name="detail.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/components/detail/detail.component.html">
+        <metrics statements="42" coveredstatements="40" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="2"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="52" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="9" count="48" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="44" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="16" count="44" type="stmt"/>
+        <line num="17" count="34" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="21" count="34" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="32" count="44" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="32" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="41" count="4" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+        <line num="43" count="4" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="48" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+        <line num="53" count="4" type="stmt"/>
+        <line num="54" count="4" type="stmt"/>
+        <line num="55" count="48" type="stmt"/>
+        <line num="58" count="4" type="stmt"/>
+        <line num="59" count="4" type="stmt"/>
+        <line num="60" count="48" type="stmt"/>
+        <line num="61" count="4" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
+        <line num="63" count="4" type="stmt"/>
+        <line num="64" count="48" type="stmt"/>
+        <line num="65" count="48" type="stmt"/>
+        <line num="69" count="4" type="stmt"/>
+      </file>
+      <file name="detail.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/components/detail/detail.component.ts">
+        <metrics statements="26" coveredstatements="24" conditionals="2" coveredconditionals="2" methods="14" coveredmethods="10"/>
+        <line num="16" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="68" count="5" type="stmt"/>
+        <line num="71" count="5" type="stmt"/>
+        <line num="72" count="5" type="stmt"/>
+        <line num="73" count="5" type="stmt"/>
+        <line num="75" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.sessions.components.form">
+      <metrics statements="59" coveredstatements="57" conditionals="16" coveredconditionals="15" methods="10" coveredmethods="9"/>
+      <file name="form.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/components/form/form.component.html">
+        <metrics statements="31" coveredstatements="31" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="284" type="stmt"/>
+        <line num="9" count="284" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="12" count="284" type="stmt"/>
+        <line num="13" count="282" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="396" type="stmt"/>
+        <line num="26" count="804" type="stmt"/>
+        <line num="27" count="12" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="282" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="41" count="4" type="stmt"/>
+      </file>
+      <file name="form.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/components/form/form.component.ts">
+        <metrics statements="28" coveredstatements="26" conditionals="16" coveredconditionals="15" methods="9" coveredmethods="8"/>
+        <line num="15" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="34" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="38" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+        <line num="50" count="2" type="stmt"/>
+        <line num="52" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="64" count="4" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="89" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.sessions.components.list">
+      <metrics statements="33" coveredstatements="33" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+      <file name="list.component.html" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/components/list/list.component.html">
+        <metrics statements="28" coveredstatements="28" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="17" type="stmt"/>
+        <line num="4" count="17" type="stmt"/>
+        <line num="5" count="136" type="stmt"/>
+        <line num="6" count="8" type="stmt"/>
+        <line num="7" count="8" type="stmt"/>
+        <line num="9" count="17" type="stmt"/>
+        <line num="10" count="17" type="stmt"/>
+        <line num="11" count="136" type="stmt"/>
+        <line num="13" count="45" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="15" count="45" type="stmt"/>
+        <line num="16" count="9" type="stmt"/>
+        <line num="18" count="9" type="stmt"/>
+        <line num="19" count="9" type="stmt"/>
+        <line num="20" count="9" type="stmt"/>
+        <line num="21" count="9" type="stmt"/>
+        <line num="23" count="45" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="26" count="9" type="stmt"/>
+        <line num="27" count="36" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+        <line num="31" count="36" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="36" count="9" type="stmt"/>
+        <line num="38" count="17" type="stmt"/>
+      </file>
+      <file name="list.component.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/components/list/list.component.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="13" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="17" type="stmt"/>
+        <line num="18" count="17" type="stmt"/>
+        <line num="19" count="17" type="stmt"/>
+        <line num="23" count="86" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.features.sessions.services">
+      <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="8"/>
+      <file name="session-api.service.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/features/sessions/services/session-api.service.ts">
+        <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="8"/>
+        <line num="9" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="14" type="stmt"/>
+        <line num="13" count="14" type="stmt"/>
+        <line num="17" count="17" type="stmt"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.guards">
+      <metrics statements="14" coveredstatements="12" conditionals="8" coveredconditionals="7" methods="6" coveredmethods="6"/>
+      <file name="auth.guard.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/guards/auth.guard.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="6" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="15" type="stmt"/>
+        <line num="10" count="15" type="stmt"/>
+        <line num="15" count="18" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="19" count="17" type="stmt"/>
+      </file>
+      <file name="unauth.guard.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/guards/unauth.guard.ts">
+        <metrics statements="7" coveredstatements="5" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="3"/>
+        <line num="6" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="23" type="stmt"/>
+        <line num="10" count="23" type="stmt"/>
+        <line num="15" count="24" type="cond" truecount="1" falsecount="1"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="24" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.interceptors">
+      <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+      <file name="jwt.interceptor.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/interceptors/jwt.interceptor.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="6" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="7" count="17" type="stmt"/>
+        <line num="10" count="57" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="40" type="stmt"/>
+        <line num="17" count="57" type="stmt"/>
+      </file>
+    </package>
+    <package name="home.runner.work.OC5-testing-an-application.OC5-testing-an-application.front.src.app.services">
+      <metrics statements="21" coveredstatements="21" conditionals="6" coveredconditionals="6" methods="14" coveredmethods="14"/>
+      <file name="session.service.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/services/session.service.ts">
+        <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="6"/>
+        <line num="8" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="24" type="stmt"/>
+        <line num="13" count="24" type="stmt"/>
+        <line num="16" count="1090" type="stmt"/>
+        <line num="20" count="14" type="stmt"/>
+        <line num="21" count="14" type="stmt"/>
+        <line num="22" count="14" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="32" count="15" type="stmt"/>
+      </file>
+      <file name="teacher.service.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/services/teacher.service.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="9" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+      </file>
+      <file name="user.service.ts" path="/home/runner/work/OC5-testing-an-application/OC5-testing-an-application/front/src/app/services/user.service.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="9" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

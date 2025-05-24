@@ -1,4 +1,4 @@
-name: E2E Tests coverage (Angular --- e2e-ci target)
+name: E2E Tests coverage (Angular)
 
 on:
   workflow_dispatch:

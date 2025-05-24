@@ -23,7 +23,7 @@ import { Session } from '../../interfaces/session.interface';
 import { NgZone } from "@angular/core";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Router, Routes } from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 
 
 
@@ -77,7 +77,17 @@ describe('FormComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
-        { provide: SessionService, useValue: serviceMock }
+        { provide: SessionService, useValue: serviceMock },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: jest.fn(() => null)
+              }
+            }
+          }
+        }
       ],
       declarations: [FormComponent]
     }).compileComponents();
@@ -92,6 +102,65 @@ describe('FormComponent', () => {
     fixture.detectChanges();
   }
 
+  async function setupWithRoutes(mockSession: Session) {
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      declarations: [FormComponent],
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: 'sessions/update/:id', component: FormComponent }
+        ]),
+        HttpClientTestingModule,
+        MatCardModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule, 
+        MatSnackBarModule,
+        MatSelectModule,
+        NoopAnimationsModule
+      ],
+      providers: [
+        {
+          provide: SessionService,
+          useValue: { sessionInformation: { admin: true } }
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: jest.fn((key: string) => key === 'id' ? '123' : null)
+              }
+            }
+          }
+        },
+        {
+          provide: SessionApiService,
+          useValue: {
+            detail: jest.fn(() => of(mockSession)),
+            create: jest.fn(),
+            update: jest.fn()
+          }
+        },
+        {
+          provide: TeacherService,
+          useValue: {
+            all: jest.fn(() => of([mockTeacher]))
+          }
+        }
+      ]
+    }).compileComponents();
+  
+    const fixture = TestBed.createComponent(FormComponent);
+    const component = fixture.componentInstance;
+    const router = TestBed.inject(Router);
+    const ngZone = TestBed.inject(NgZone);
+    const sessionApiService = TestBed.inject(SessionApiService);
+  
+    return { fixture, component, router, ngZone, sessionApiService };
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -100,21 +169,40 @@ describe('FormComponent', () => {
       await setup(mockUserSessionService);
       const ngZone = TestBed.inject(NgZone);
       const navigateSpy = jest.spyOn(router, 'navigate');
+
       ngZone.run(() => { component.ngOnInit() });
       expect(navigateSpy).toHaveBeenCalledWith(['/sessions']);
     });
-    it("should set onUpdate to true and get the id and call detail when there is update int the url", () => {
-      const ngZone = TestBed.inject(NgZone);
-      ngZone.run(() => {
-        TestBed.inject(Router).navigate(['/update', '1']).then(() => {
-          TestBed.inject(Router).navigateByUrl('/update/1').then(() => {
-            const url = TestBed.inject(Router).url;
-            expect(url).toContain('update');
-            expect(component.onUpdate).toEqual(true);
-          });
-        });
-      })
+    
+    
+
+    it("should set onUpdate to true, extract id, call detail, and initForm when id is in route", async () => {
+      const mockSession: Session = {
+        id: 1,
+        name: 'Mock Session',
+        description: 'Mock Description',
+        date: new Date('2023-01-01'),
+        teacher_id: 1,
+        users: [1, 2],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+    
+      const { fixture, component, router, ngZone, sessionApiService } = await setupWithRoutes(mockSession);
+      const initFormSpy = jest.spyOn(component as any, 'initForm');
+    
+      await ngZone.run(() => router.navigate(['/sessions/update/123']));
+      fixture.detectChanges();
+    
+      expect(component.onUpdate).toBe(true);
+      expect((component as any).id).toBe('123');
+      expect(sessionApiService.detail).toHaveBeenCalledWith('123');
+      expect(initFormSpy).toHaveBeenCalledWith(mockSession);
     });
+
+
+
+
     it("should set onUpdate to false and when there is not update in the url",  () => {
       const ngZone = TestBed.inject(NgZone);
       ngZone.run(() => {

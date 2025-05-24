@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,6 +77,41 @@ class TeacherMapperTest {
 
         assertEquals(1, mapper.toDto(List.of(teacher)).size());
         assertEquals(1, mapper.toEntity(List.of(dto)).size());
+    }
+
+    //NULL BRANCHES 
+
+    @Test
+    void testToDto_withNull_shouldReturnNull() {
+        assertNull(mapper.toDto((Teacher) null));
+    }
+
+    @Test
+    void testToEntity_withNull_shouldReturnNull() {
+        assertNull(mapper.toEntity((TeacherDto) null));
+    }
+
+    @Test
+    void testToDtoList_withNullElement_shouldIncludeNull() {
+        List<TeacherDto> result = mapper.toDto(Arrays.asList(null, new Teacher().setId(1L)));
+
+        assertEquals(2, result.size());
+        assertNull(result.get(0));
+        assertNotNull(result.get(1));
+        assertEquals(1L, result.get(1).getId());
+    }
+
+    @Test
+    void testToEntityList_withNullElement_shouldIncludeNull() {
+        TeacherDto dto = new TeacherDto();
+        dto.setId(2L);
+
+        List<Teacher> result = mapper.toEntity(Arrays.asList(null, dto));
+
+        assertEquals(2, result.size());
+        assertNull(result.get(0));
+        assertNotNull(result.get(1));
+        assertEquals(2L, result.get(1).getId());
     }
 
 }

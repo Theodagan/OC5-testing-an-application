@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -127,5 +128,50 @@ class UserMapperTest {
         assertTrue(result.isEmpty());
     }
 
+    //NULL BRANCHES 
+    @Test
+    void testToEntity_withNull_shouldReturnNull() {
+        assertNull(mapper.toEntity((UserDto) null));
+    }
+    @Test
+    void testToDto_withNull_shouldReturnNull() {
+        assertNull(mapper.toDto((User) null));
+    }
+    
+    @Test
+    void testToEntityList_withNullElement_shouldIncludeNull() {
+        UserDto dto = new UserDto();
+        dto.setId(1L);
+        dto.setEmail("john@example.com");
+        dto.setFirstName("John");
+        dto.setLastName("Doe");
+        dto.setPassword("strongpass");
+        dto.setAdmin(false);
+
+        List<User> result = mapper.toEntity(Arrays.asList(null, dto));
+
+        assertEquals(2, result.size());
+        assertNull(result.get(0));
+        assertNotNull(result.get(1));
+        assertEquals(1L, result.get(1).getId());
+    }
+
+    @Test
+    void testToDtoList_withNullElement_shouldIncludeNull() {
+        User user = new User()
+            .setId(2L)
+            .setEmail("john.doe@example.com")
+            .setFirstName("John")
+            .setLastName("Doe")
+            .setPassword("securePassword")
+            .setAdmin(false);
+
+        List<UserDto> result = mapper.toDto(Arrays.asList(null, user));
+
+        assertEquals(2, result.size());
+        assertNull(result.get(0));
+        assertNotNull(result.get(1));
+        assertEquals(2L, result.get(1).getId());
+    }
 
 }

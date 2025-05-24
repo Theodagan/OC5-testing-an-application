@@ -150,4 +150,40 @@ class SessionMapperTest {
         assertTrue(entity.getUsers().isEmpty());
     }
 
+    //null branches
+
+    @Test
+    void testToDto_withEmptyUserList_shouldReturnEmptyList() {
+        Session session = new Session();
+        session.setDescription("Empty users");
+        session.setTeacher(new Teacher().setId(1L));
+        session.setUsers(Collections.emptyList());
+
+        SessionDto dto = sessionMapper.toDto(session);
+
+        assertNotNull(dto);
+        assertEquals("Empty users", dto.getDescription());
+        assertEquals(1L, dto.getTeacher_id());
+        assertNotNull(dto.getUsers());
+        assertTrue(dto.getUsers().isEmpty());
+    }
+
+    @Test
+    void testToDto_shouldHandleNullSessionAndNullTeacherAndNullUsers() {
+        // ➤ Case: null session
+        SessionDto dtoNull = sessionMapper.toDto((Session) null);
+        assertNull(dtoNull);
+
+        // ➤ Case: session with null teacher
+        Session sessionNoTeacher = new Session();
+        sessionNoTeacher.setDescription("test");
+        sessionNoTeacher.setTeacher(null);
+        sessionNoTeacher.setUsers(null); // to also test empty user branch
+
+        SessionDto dtoNoTeacher = sessionMapper.toDto(sessionNoTeacher);
+        assertNotNull(dtoNoTeacher);
+        assertNull(dtoNoTeacher.getTeacher_id());
+        assertNotNull(dtoNoTeacher.getUsers());
+        assertTrue(dtoNoTeacher.getUsers().isEmpty());
+    }
 }
