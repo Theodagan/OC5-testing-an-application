@@ -178,6 +178,13 @@ Generate E2E coverage report:
 npm run e2e:coverage
 ```
 
+⚠️ Disclaimer: If you’re running these commands locally, make sure Cypress is installed first:
+
+```bash
+npm install cypress --save-dev
+```
+
+
 ---
 
 ## 📂 Project structure
