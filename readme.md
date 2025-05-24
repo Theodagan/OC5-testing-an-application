@@ -91,7 +91,7 @@ Click the link below to start a new Firebase Studio workspace using the custom t
    - Workspace name
    - Project Git repository URL
    - Default database credentials (⚠️ it's recommended to update these in the generated `dev.nix`):
-     - Database name: yoga
+     - Database name: test
      - Port: 3306
      - Username: user
      - Password: 123456
